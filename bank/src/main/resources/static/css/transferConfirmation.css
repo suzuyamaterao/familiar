@@ -1,0 +1,102 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+    background: linear-gradient(135deg, #e0f7fa, #ffffff);
+}
+
+header {
+    background-color: #2d6cdf;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+main {
+    width: 100%;
+    max-width: 600px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    background-color: #2874f0;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    color: #333;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #2d6cdf;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #1f5fb0;
+}
+
+.confirm-info {
+    text-align: left;
+    margin-bottom: 30px;
+    background-color: #f0f4f7;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.confirm-info h2 {
+    font-size: 24px;
+    color: #333;
+    margin: 0 0 10px;
+}
+
+.confirm-info p {
+    font-size: 16px;
+    color: #333;
+    margin: 10px 0;
+}
+
+.confirm-info .amount {
+    font-size: 20px;
+    color: #2d6cdf;
+    font-weight: bold;
+}
+
+.confirm-info .amount.negative {
+    color: #e74c3c;
+}
+
+.confirm-info .label {
+    font-weight: bold;
+}
