@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>振込確認 - ファミリア銀行</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src='/images/銀行.png' alt='銀行' width='40'>
+            <span>ファミリア銀行</span>
+        </div>
+        <div class="user-menu">
+            <button id="userIcon"><img src='/images/ユーザー.png' alt='ユーザー' width='40'></button>
+            <div class="dropdown" id="userDropdown">
+                <a href="#">ユーザー情報</a>
+                <a href="#">問い合わせ</a>
+                <a href="#">設定</a>
+                <a href="#" id="closeDropdown">閉じる</a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="confirm-info">
+            <h2>振込情報の確認</h2>
+            <p><span class="label">金融機関名:</span> ファミリア銀行</p>
+            <p><span class="label">支店名:</span> 新宿支店</p>
+            <p><span class="label">口座種類:</span> 普通</p>
+            <p><span class="label">口座番号:</span> 1234567890</p>
+            <p><span class="label">振込先名義:</span> ヤマダタロウ</p>
+            <p><span class="label">振込金額:</span> <span class="amount">¥10,000</span></p>
+            <p><span class="label">メモ:</span> 家賃支払い</p>
+        </div>
+        <h2 style="text-align: center;">振込確認</h2>
+        <p style="text-align: center; font-size: 16px;">以下の情報で振込を実行します。よろしいですか？</p>
+        <button onclick="confirmTransaction()">振込を実行</button>
+    </main>
+    <footer>
+        <p>&copy; 2025 ファミリア銀行</p>
+    </footer>
+    <script src="/js/transferConfirmation.js"></script>
+</body>
+</html>
