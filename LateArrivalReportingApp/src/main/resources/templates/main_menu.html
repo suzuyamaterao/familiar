@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>銀行</title>
+    <link rel="stylesheet" href="/css/main_menu.css">
+</head>
+<body>
+    <header>
+    <div class="logo">
+        <img src='/images/銀行.png' alt='銀行' width='40'>
+        <span>ファミリア銀行</span>
+    </div>
+    <div class="user-menu">
+        <button id="userIcon"><img src='/images/ユーザー.png' alt='ユーザー' width='40'></button>
+        <div class="dropdown" id="userDropdown">
+            <a href="#">ユーザー情報</a>
+            <a href="#">問い合わせ</a>
+            <a href="#">設定</a>
+            <a href="#" id="closeDropdown">閉じる</a>
+        </div>
+    </div>
+</header>
+    
+    <main>
+        <section class="balance">
+            <h2>口座残高</h2>
+            <div class="balance-box">
+                <p id="balance">1,000,000,000,000円</p>
+                <a href="#" class="details">明細 ></a>
+            </div>
+        </section>
+        
+        <section class="actions">
+            <div class="grid-container">
+                <a href="/transfer" class="action-button">
+                    <img src="/images/送金.png" alt="送金"> 振込・送金
+                </a>
+                <a href="/history" class="action-button">
+                    <img src="/images/26135.png" alt="履歴"> 取引履歴
+                </a>
+                <a href="/analysis" class="action-button">
+                    <img src="/images/43147.png" alt="分析"> 支出分析
+                </a>
+                <a href="/bills" class="action-button">
+                    <img src="/images/18479.png" alt="請求書"> 支払い・請求書
+                </a>
+            </div>
+            
+        </section>
+    </main>
+    <script src="/js/main_menu.js" defer></script>
+</body>
+</html>
