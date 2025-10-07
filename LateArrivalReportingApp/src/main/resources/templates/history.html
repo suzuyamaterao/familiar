@@ -1,42 +1,63 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>取引履歴 - ファミリア銀行</title>
-    <link rel="stylesheet" href="/css/history.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>照会画面</title>
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/history.css" />
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <img src='/images/銀行.png' alt='銀行' width='40'>
-            <span>ファミリア銀行</span>
-        </div>
-        <div class="user-menu">
-            <button id="userIcon"><img src='/images/ユーザー.png' alt='ユーザー' width='40'></button>
-            <div class="dropdown" id="userDropdown">
-                <a href="#">ユーザー情報</a>
-                <a href="#">問い合わせ</a>
-                <a href="#">設定</a>
-                <a href="#" id="closeDropdown">閉じる</a>
-            </div>
-        </div>
-    </header>
-    <main>
-        <div class="month-selector">
-            <button onclick="changeMonth(-1)">❮</button>
-            <span id="current-month"></span>
-            <button onclick="changeMonth(1)">❯</button>
-        </div>
-        <section class="transactions">
-            <h2 style="text-align: center;">取引履歴</h2>
-            <ul id="transaction-list"></ul>
-            <p id="no-transactions" style="text-align: center; color: #555; display: none;">取引履歴はありません</p>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2025 ファミリア銀行</p>
-    </footer>
-    <script src="/js/history.js"></script>
+  <header>照会</header>
+
+  <main class="inquiry-container">
+
+    <!-- 上部情報 -->
+    <div class="user-info">
+      社員番号：1234567　ログイン名：tanaka
+      <button class="csv-button">CSVダウンロード</button>
+    </div>
+
+    <!-- 検索条件フォーム -->
+    <form class="search-form">
+      <div class="form-row">
+        <label>ユニット：
+          <select name="unit">
+            <option value="">選択してください</option>
+            <option value="unit1">営業部</option>
+            <option value="unit2">開発部</option>
+          </select>
+        </label>
+        <label>チーム：
+          <select name="team">
+            <option value="">選択してください</option>
+            <option value="team1">Aチーム</option>
+            <option value="team2">Bチーム</option>
+          </select>
+        </label>
+        <label>名前：
+          <select name="name">
+            <option value="">選択してください</option>
+            <option value="yamada">山田 太郎</option>
+            <option value="suzuki">鈴木 花子</option>
+          </select>
+        </label>
+      </div>
+      <div class="form-row right-align">
+        <button type="button" class="detail-btn">詳細条件設定</button>
+        <button type="submit" class="search-btn">検索</button>
+      </div>
+    </form>
+
+    <!-- 検索結果表示エリア -->
+    <div class="result-area">
+      <h2>検索結果</h2>
+      <p>ここに検索結果が表示されます。</p>
+      <!-- 実際にはテーブルなど -->
+    </div>
+
+  </main>
+
+  <footer>&copy; 2025 遅刻報告アプリ</footer>
 </body>
 </html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>現場社員登録</title>
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/user-register.css" />
+</head>
+<body>
+  <header>ユーザー登録</header>
+  <main>
+    <form id="user-form" method="post" action="/register-users">
+      <div id="user-list">
+        <!-- 初期は空。追加ボタンで要素が増える -->
+      </div>
+
+      <button type="button" id="add-button">追加</button>
+      <button type="submit">登録</button>
+    </form>
+  </main>
+  <footer>&copy; 2025 ユーザー管理システム</footer>
+
+  <script>
+    const userList = document.getElementById("user-list");
+    const addButton = document.getElementById("add-button");
+
+    // 入力欄追加
+    addButton.addEventListener("click", () => {
+      const entry = document.createElement("div");
+      entry.className = "user-entry";
+      entry.innerHTML = `
+        <input type="text" name="loginName[]" placeholder="社員名" required>
+        <button type="button" class="delete-button">削除</button>
+      `;
+      userList.appendChild(entry);
+    });
+
+    // 入力欄削除（イベント委任）
+    userList.addEventListener("click", (e) => {
+      if (e.target.classList.contains("delete-button")) {
+        const entry = e.target.closest(".user-entry");
+        entry.remove();
+      }
+    });
+  </script>
+</body>
+</html>

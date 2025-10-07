@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ルート設定</title>
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/routeSetting.css" />
+</head>
+<body>
+  <header>ルート設定</header>
+
+  <main class="form-container">
+    <form>
+      <!-- 3セット分の路線＋駅名 -->
+      <div class="route-row">
+        <label>路線1:
+          <select onchange="handleLineChange(this, 1)" name="line1">
+            <option value="">未選択</option>
+            <option value="yamanote">山手線</option>
+            <option value="chuo">中央線</option>  
+          </select>
+        </label>
+        <label>駅名1:
+          <select name="station1" id="station1" disabled>
+            <option value="">--</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="route-row">
+        <label>路線2:
+          <select onchange="handleLineChange(this, 2)" name="line2">
+            <option value="">未選択</option>
+            <option value="yamanote">山手線</option>
+            <option value="chuo">中央線</option>
+          </select>
+        </label>
+        <label>駅名2:
+          <select name="station2" id="station2" disabled>
+            <option value="">--</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="route-row">
+        <label>路線3:
+          <select onchange="handleLineChange(this, 3)" name="line3">
+            <option value="">未選択</option>
+            <option value="yamanote">山手線</option>
+            <option value="chuo">中央線</option>
+          </select>
+        </label>
+        <label>駅名3:
+          <select name="station3" id="station3" disabled>
+            <option value="">--</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="submit-section">
+        <button type="submit">保存</button>
+      </div>
+    </form>
+  </main>
+
+  <footer>&copy; 2025 遅刻報告アプリ</footer>
+
+  <script>
+    const stationOptions = {
+      yamanote: ["未選択","新宿", "渋谷", "池袋", "上野"],
+      chuo: ["未選択","三鷹", "吉祥寺", "中野", "御茶ノ水"]
+    };
+
+    function handleLineChange(selectEl, index) {
+      const selectedLine = selectEl.value;
+      const stationSelect = document.getElementById(`station${index}`);
+      stationSelect.innerHTML = ""; // 一旦クリア
+
+      if (stationOptions[selectedLine]) {
+        stationSelect.disabled = false;
+        stationOptions[selectedLine].forEach(station => {
+          const opt = document.createElement("option");
+          opt.value = station;
+          opt.textContent = station;
+          stationSelect.appendChild(opt);
+        });
+      } else {
+        stationSelect.disabled = true;
+        const opt = document.createElement("option");
+        opt.textContent = "--";
+        stationSelect.appendChild(opt);
+      }
+    }
+  </script>
+</body>
+</html>

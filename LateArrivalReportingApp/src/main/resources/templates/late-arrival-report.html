@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>遅刻報告</title>
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/lateArrivalReport.css" />
+  <script>
+    function showTab(tabName) {
+      document.getElementById("train-tab").style.display = tabName === "train" ? "block" : "none";
+      document.getElementById("other-tab").style.display = tabName === "other" ? "block" : "none";
+      document.getElementById("train-btn").classList.toggle("active", tabName === "train");
+      document.getElementById("other-btn").classList.toggle("active", tabName === "other");
+    }
+  </script>
+</head>
+    <body>
+    <header>遅刻報告</header>
+    <main class="form-container">
+        <div class="tab-buttons">
+        <button id="train-btn" class="tab-btn active" onclick="showTab('train')">電車による遅刻</button>
+        <button id="other-btn" class="tab-btn" onclick="showTab('other')">その他の遅刻</button>
+        </div>
+        <!-- 電車による遅刻 -->
+        <form id="train-tab" action="/submit-train-delay" method="post">
+        <div class="delay-input">
+            <label>遅刻理由: 
+            <select name="delay_reason" required>
+                <option value="" disabled selected>選択してください</option>
+                <option value="train_delay">電車遅延</option>
+                <option value="accident">事故</option>
+                <option value="signal_problem">信号トラブル</option>
+                <option value="other">その他</option>
+            </select>
+            </label>
+        </div>
+        <div class="delay-input">
+            <label>山手線: <input type="number" name="yamanote1" min="0" /> 分遅延</label>
+        </div>
+        <div class="delay-input">
+            <label>山手線: <input type="number" name="yamanote2" min="0" /> 分遅延</label>
+        </div>
+        <div class="arrival-time">
+            <label>到着予定時間: <input type="time" name="arrival_time" required /></label>
+        </div>
+        <div class="submit-section">
+            <button type="submit">送信</button>
+        </div>
+        </form>
+        <!-- その他の遅刻 -->
+        <form id="other-tab" action="/submit-other-delay" method="post" style="display: none;">
+        <div class="other-reason">
+            <label>遅刻理由:<br>
+            <textarea name="reason" rows="4" cols="40" placeholder="寝坊、体調不良など"></textarea>
+            </label>
+        </div>
+        <div class="arrival-time">
+            <label>到着予定時間: <input type="time" name="arrival_time" required /></label>
+        </div>
+        <div class="submit-section">
+            <button type="submit">送信</button>
+        </div>
+        </form>
+    </main>
+    <footer>&copy; 2025 遅刻報告アプリ</footer>
+    </body>
+</html>
