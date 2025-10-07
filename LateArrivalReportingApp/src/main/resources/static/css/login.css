@@ -1,69 +1,86 @@
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: #eef1f5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #eef1f5;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .login-container {
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 300px;
+  background-color: #fff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
 }
 
-.login-container h2 {
-    margin-bottom: 20px;
+h1 {
+  margin-bottom: 30px;
+  color: #4b79a1;
 }
 
-.input-group {
-    margin-bottom: 15px;
-    text-align: left;
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
 }
 
-.input-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
 }
 
-.input-group input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1em;
+  box-sizing: border-box;
 }
 
-.login-button {
-    width: 100%;
-    padding: 10px;
-    background: #5a79b2;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #4b79a1;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
-.login-button:hover {
-    background: #3a5f91;
+button:hover {
+  background-color: #3a6487;
 }
 
-.register-link {
-    margin-top: 15px;
-    font-size: 14px;
+.footer-text {
+  margin-top: 30px;
+  font-size: 0.9em;
+  color: #aaa;
 }
 
-.register-link a {
-    color: #0078D7;
-    text-decoration: none;
+.forgot-link {
+  margin-top: 20px;
 }
 
-.register-link a:hover {
-    text-decoration: underline;
+.forgot-link a {
+  font-size: 0.95em;
+  color: #4b79a1;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.forgot-link a:hover {
+  color: #3a6487;
+  text-decoration: underline;
 }

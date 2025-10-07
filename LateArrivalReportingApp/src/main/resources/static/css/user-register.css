@@ -1,0 +1,72 @@
+/* レイアウト */
+main {
+  padding: 40px 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.user-entry {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.user-entry input {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid #4b79a1;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* 削除ボタン */
+.delete-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* 追加ボタン（白背景＋ホバーで青に） */
+#add-button {
+  background-color: white;
+  color: #4b79a1;
+  border: 2px solid #4b79a1;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+#add-button:hover {
+  background-color: #4b79a1;
+  color: white;
+}
+
+/* 登録ボタン（青のまま） */
+form button[type="submit"] {
+  background-color: #4b79a1;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+form button[type="submit"]:hover {
+  background-color: #355c88;
+}
