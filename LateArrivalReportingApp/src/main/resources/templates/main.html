@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>遅刻報告アプリ - メニュー</title>
-    <link rel="stylesheet" href="css/common.css" />
-    <link rel="stylesheet" href="css/main.css" />
-  </head>
-  <body>
-    <header>遅刻報告アプリ</header>
-    <main>
-      <a class="menu-button" href="/late-arrival-report">報告</a>
-      <a class="menu-button" href="/history">照会</a>
-      <a class="menu-button" href="/route-setting">ルート設定</a>
-      <a class="menu-button" href="/user-register">現場社員登録</a>
-    </main>
-    <footer>&copy; 2025 遅刻報告アプリ</footer>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>遅刻報告アプリ - メニュー</title>
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+
+<body>
+  <header>
+    遅刻報告アプリ
+    <span style="float: right; margin-right: 20px;">
+      ようこそ、${username} さん
+    </span>
+  </header>
+
+  <main>
+    <a class="menu-button" href="/late-arrival-report">報告</a>
+    <a class="menu-button" href="/history">照会</a>
+    <a class="menu-button" href="/route-setting">ルート設定</a>
+    <a class="menu-button" href="/user-register">現場社員登録</a>
+  </main>
+
+  <footer>&copy; 2025 遅刻報告アプリ</footer>
+</body>
+
 </html>

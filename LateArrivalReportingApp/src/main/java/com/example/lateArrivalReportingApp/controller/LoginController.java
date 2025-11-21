@@ -1,6 +1,9 @@
 package com.example.lateArrivalReportingApp.controller;
 
 import com.example.lateArrivalReportingApp.service.LoginService;
+
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,11 +28,13 @@ public class LoginController {
     public String doLogin(
             @RequestParam String username,
             @RequestParam String password,
+            HttpSession session,
             Model model) {
 
         boolean success = loginService.authenticate(username, password);
 
         if (success) {
+            session.setAttribute("username", username);
             return "redirect:/main"; // メニュー画面へ
         } else {
             model.addAttribute("error", "ユーザー名またはパスワードが違います");
