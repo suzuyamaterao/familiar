@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,10 +8,11 @@
   <link rel="stylesheet" href="css/common.css" />
   <link rel="stylesheet" href="css/login.css" />
 </head>
+
 <body>
   <div class="login-container">
     <h1>ログイン</h1>
-    <form action="/main" method="GET">
+    <form action="/login" method="POST">
       <div class="form-group">
         <label for="username">ユーザー名</label>
         <input type="text" id="username" name="username" required />
@@ -21,10 +23,15 @@
       </div>
       <button type="submit">ログイン</button>
     </form>
+
+    <!-- エラー表示 -->
+    <div th:if="${error}" th:text="${error}" style="color:red; margin-top:10px;"></div>
+
     <p class="forgot-link">
       <a href="/forgot">ログインID / パスワードを忘れた方</a>
     </p>
     <p class="footer-text">© 2025 勤怠報告システム</p>
   </div>
 </body>
+
 </html>
