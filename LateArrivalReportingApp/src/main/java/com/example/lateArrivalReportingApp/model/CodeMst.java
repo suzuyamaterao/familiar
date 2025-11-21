@@ -9,7 +9,7 @@ import jakarta.persistence.*;
  * 
  */
 @Entity
-@Table(name = "TEAM_MST")
+@Table(name = "CODE_MST")
 public class CodeMst {
 
     @Id
