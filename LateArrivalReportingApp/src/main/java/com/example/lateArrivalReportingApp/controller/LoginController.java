@@ -26,15 +26,15 @@ public class LoginController {
     // ログイン処理
     @PostMapping("/login")
     public String doLogin(
-            @RequestParam String username,
+            @RequestParam String empId,
             @RequestParam String password,
             HttpSession session,
             Model model) {
 
-        boolean success = loginService.authenticate(username, password);
+        boolean success = loginService.authenticate(empId, password);
 
         if (success) {
-            session.setAttribute("username", username);
+            session.setAttribute("empId", empId);
             return "redirect:/main"; // メニュー画面へ
         } else {
             model.addAttribute("error", "ユーザー名またはパスワードが違います");
