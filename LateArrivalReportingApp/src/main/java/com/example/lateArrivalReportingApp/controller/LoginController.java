@@ -17,8 +17,8 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
-    // ログイン画面表示
-    @GetMapping("/")
+    // ログイン画面表示（/ と /login の両方を GET で受ける）
+    @GetMapping({ "/", "/login" })
     public String showLoginPage() {
         return "login"; // login.html
     }
@@ -38,7 +38,7 @@ public class LoginController {
             return "redirect:/main"; // メニュー画面へ
         } else {
             model.addAttribute("error", "ユーザー名またはパスワードが違います");
-            return "login";
+            return "login"; // ここで login に戻っても 405 にならない
         }
     }
 }
