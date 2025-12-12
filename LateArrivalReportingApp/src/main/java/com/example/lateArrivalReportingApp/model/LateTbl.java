@@ -27,6 +27,9 @@ public class LateTbl {
     @Column(name = "REASON", length = 3)
     private String reason;
 
+    @Column(name = "TRAIN_ID", length = 3)
+    private String trainId;
+
     @Column(name = "ETA", length = 4)
     private String eta;
 
@@ -66,6 +69,14 @@ public class LateTbl {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    public String getTrainId() {
+        return trainId;
+    }
+
+    public void setTrainId(String trainId) {
+        this.trainId = trainId;
     }
 
     public String getEta() {
