@@ -25,14 +25,16 @@
             </div>
 
             <div id="companyBlock" class="delay-input" style="display:none;">
-                <label>遅延している路線名:
-                    <input type="text" id="trainSearch" placeholder="路線名で検索（例: 山手）" />
-                    <!-- プルダウン（通常のselect）に変更、初期は非活性 -->
-                    <select id="trainSelect" name="train_id" disabled>
-                        <option value="" disabled selected>選択してください</option>
-                        <option th:each="t : ${trains}" th:value="${t.trainId}" th:text="${t.railway}">路線</option>
-                    </select>
-                </label>
+
+                <label>遅延している路線名:</label>
+
+                <input type="text" id="trainSearch" placeholder="路線名で検索（例: 山手）" />
+
+                <select id="trainSelect" name="train_id" disabled>
+                    <option value="" disabled selected>選択してください</option>
+                    <option th:each="t : ${trains}" th:value="${t.trainId}" th:text="${t.railway}">路線</option>
+                </select>
+
             </div>
             <!-- 末尾にスクリプトを追加 -->
             <script>
