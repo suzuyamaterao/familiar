@@ -1,68 +1,125 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>遅刻報告</title>
-  <link rel="stylesheet" href="css/common.css" />
-  <link rel="stylesheet" href="css/lateArrivalReport.css" />
-  <script>
-    function showTab(tabName) {
-      document.getElementById("train-tab").style.display = tabName === "train" ? "block" : "none";
-      document.getElementById("other-tab").style.display = tabName === "other" ? "block" : "none";
-      document.getElementById("train-btn").classList.toggle("active", tabName === "train");
-      document.getElementById("other-btn").classList.toggle("active", tabName === "other");
-    }
-  </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>遅刻報告</title>
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/lateArrivalReport.css" />
 </head>
-    <body>
+
+<body>
     <header>遅刻報告</header>
+
     <main class="form-container">
-        <div class="tab-buttons">
-        <button id="train-btn" class="tab-btn active" onclick="showTab('train')">電車による遅刻</button>
-        <button id="other-btn" class="tab-btn" onclick="showTab('other')">その他の遅刻</button>
-        </div>
-        <!-- 電車による遅刻 -->
-        <form id="train-tab" action="/submit-train-delay" method="post">
-        <div class="delay-input">
-            <label>遅刻理由: 
-            <select name="delay_reason" required>
-                <option value="" disabled selected>選択してください</option>
-                <option value="train_delay">電車遅延</option>
-                <option value="accident">事故</option>
-                <option value="signal_problem">信号トラブル</option>
-                <option value="other">その他</option>
-            </select>
-            </label>
-        </div>
-        <div class="delay-input">
-            <label>山手線: <input type="number" name="yamanote1" min="0" /> 分遅延</label>
-        </div>
-        <div class="delay-input">
-            <label>山手線: <input type="number" name="yamanote2" min="0" /> 分遅延</label>
-        </div>
-        <div class="arrival-time">
-            <label>到着予定時間: <input type="time" name="arrival_time" required /></label>
-        </div>
-        <div class="submit-section">
-            <button type="submit">送信</button>
-        </div>
+
+        <form th:action="@{/submit-delay}" method="post">
+            <div class="delay-input">
+                <label>遅刻理由:</label>
+                <select id="delayReason" name="delay_reason" required>
+                    <option value="" disabled selected>選択してください</option>
+                    <option th:each="c : ${delayReasons}" th:value="${c.codeId}" th:text="${c.codeName}">理由</option>
+                </select>
+                </label>
+            </div>
+
+            <div id="companyBlock" class="delay-input" style="display:none;">
+                <label>遅延している路線名:
+                    <input type="text" id="trainSearch" placeholder="路線名で検索（例: 山手）" />
+                    <!-- プルダウン（通常のselect）に変更、初期は非活性 -->
+                    <select id="trainSelect" name="train_id" disabled>
+                        <option value="" disabled selected>選択してください</option>
+                        <option th:each="t : ${trains}" th:value="${t.trainId}" th:text="${t.railway}">路線</option>
+                    </select>
+                </label>
+            </div>
+            <!-- 末尾にスクリプトを追加 -->
+            <script>
+                (function () {
+                    function toggleCompany() {
+                        const delay = document.getElementById('delayReason');
+                        const block = document.getElementById('companyBlock');
+                        const trainSelect = document.getElementById('trainSelect');
+                        if (!delay || !block || !trainSelect) return;
+                        const show = (delay.value === '1'); // 電車遅延の code_id に合わせる
+                        block.style.display = show ? 'block' : 'none';
+                        trainSelect.disabled = !show;
+                        if (!show) trainSelect.selectedIndex = 0;
+                    }
+
+                    function initTrainFilter() {
+                        const search = document.getElementById('trainSearch');
+                        const select = document.getElementById('trainSelect');
+                        if (!search || !select) return;
+
+                        // 元の option 要素を保持（placeholder を除く）
+                        const placeholder = select.querySelector('option[disabled][selected]');
+                        const originalOptions = Array.from(select.querySelectorAll('option'))
+                            .filter(o => !(o.disabled && o.selected));
+
+                        function render(filtered) {
+                            select.innerHTML = '';
+                            if (placeholder) select.appendChild(placeholder.cloneNode(true));
+                            if (filtered.length === 0) {
+                                const none = document.createElement('option');
+                                none.disabled = true;
+                                none.textContent = '該当する路線がありません';
+                                select.appendChild(none);
+                                return;
+                            }
+                            filtered.forEach(opt => select.appendChild(opt.cloneNode(true)));
+                        }
+
+                        function filterOptions() {
+                            const q = search.value.trim().toLowerCase();
+                            if (q === '') {
+                                render(originalOptions);
+                                return;
+                            }
+                            const filtered = originalOptions.filter(o => {
+                                const text = (o.textContent || '').toLowerCase();
+                                return text.indexOf(q) !== -1;
+                            });
+                            render(filtered);
+                        }
+
+                        search.addEventListener('input', filterOptions);
+                        // 初期は全件をレンダリング（プルダウン）
+                        render(originalOptions);
+                    }
+
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const delay = document.getElementById('delayReason');
+                        if (delay) {
+                            delay.addEventListener('change', toggleCompany);
+                        }
+                        // 初期状態：非表示・非活性
+                        toggleCompany();
+                        initTrainFilter();
+                    });
+                })();
+            </script>
+
+            <div class="other-reason">
+                <label>詳細理由:</label>
+                <textarea name="reason" rows="4" cols="40" placeholder="遅刻の詳細（任意）"></textarea>
+                </label>
+            </div>
+
+            <div class="arrival-time">
+                <label>到着予定時間:</label>
+                <input type="time" name="arrival_time" required />
+            </div>
+
+            <div class="submit-section">
+                <button type="submit">送信</button>
+            </div>
         </form>
-        <!-- その他の遅刻 -->
-        <form id="other-tab" action="/submit-other-delay" method="post" style="display: none;">
-        <div class="other-reason">
-            <label>遅刻理由:<br>
-            <textarea name="reason" rows="4" cols="40" placeholder="寝坊、体調不良など"></textarea>
-            </label>
-        </div>
-        <div class="arrival-time">
-            <label>到着予定時間: <input type="time" name="arrival_time" required /></label>
-        </div>
-        <div class="submit-section">
-            <button type="submit">送信</button>
-        </div>
-        </form>
+
     </main>
+
     <footer>&copy; 2025 遅刻報告アプリ</footer>
-    </body>
+</body>
+
 </html>

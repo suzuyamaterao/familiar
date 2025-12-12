@@ -1,87 +1,99 @@
 .form-container {
   max-width: 600px;
-  margin: 30px auto;  /* 横中央に配置 */
+  margin: 30px auto;
   padding: 20px;
-  text-align: center; /* ボタンなど中央揃え用に残す */
+  text-align: center;
 }
 
+/* フォーム全体を中央寄せ */
 form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  align-items: flex-start;  /* ラベル・入力欄を左揃え */
-  width: 100%;             /* 親幅いっぱいに */
+  gap: 25px;
+  align-items: center;
+  width: 100%;
 }
 
+/* 各項目を縦方向に中央寄せ */
 .delay-input,
 .arrival-time,
 .other-reason {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  font-size: 1.1em;
   width: 100%;
-  margin-bottom: 20px;
 }
 
+/* 各ラベル内の要素を縦方向に中央揃えにする（遅刻理由・詳細・到着時間用） */
 .delay-input label,
 .arrival-time label,
 .other-reason label {
-  flex-shrink: 0;
-  width: 120px;
-  text-align: right;
-  padding-right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  text-align: center;
+  /* ラベルの文字自体も中央寄せ */
+  font-weight: bold;
+  margin-bottom: 6px;
 }
 
+/* ============================
+   ラベル・テキスト整形（汎用）
+============================ */
+label {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+/* ============================
+   入力欄
+============================ */
 input[type="number"],
 input[type="time"],
-select {
-  width: 200px;
-  height: 38px;
-  padding: 6px 10px;
-  font-size: 1em;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  margin-left: 0;
-  box-sizing: border-box;
-}
-
+select,
 textarea {
-  flex-grow: 1;
-  min-height: 80px;
+  width: 240px;
   padding: 8px 10px;
   font-size: 1em;
   border-radius: 8px;
   border: 1px solid #ccc;
-  resize: vertical;
-  margin-left: 0;
+  margin: 8px auto 0;
+  /* 上部余白 + 中央寄せ */
   box-sizing: border-box;
 }
 
-.tab-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 30px;
+/* 詳細理由 textarea は少し大きくする */
+textarea {
+  min-height: 90px;
+  resize: vertical;
 }
 
-.tab-btn {
-  background-color: white;
-  color: #4b79a1;
-  border: 2px solid #4b79a1;
-  padding: 12px 24px;
-  font-size: 1.1em;
-  border-radius: 12px;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.2s, color 0.2s;
+/* プルダウン（選択リスト）サイズ調整 */
+select[size] {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  padding: 6px 8px;
 }
 
-.tab-btn.active,
-.tab-btn:hover {
-  background-color: #4b79a1;
-  color: white;
+/* 非活性時の見た目 */
+select:disabled,
+input:disabled,
+textarea:disabled {
+  background-color: #f5f5f5;
+  color: #888;
+  cursor: not-allowed;
 }
 
+/* ============================
+   送信ボタン
+============================ */
 .submit-section {
   display: flex;
   justify-content: center;
@@ -96,10 +108,25 @@ textarea {
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.2s;
 }
 
 .submit-section button:hover {
   background-color: #3a6487;
+}
+
+/* レスポンシブ（狭い画面では幅を調整） */
+@media (max-width: 480px) {
+
+  input[type="number"],
+  input[type="time"],
+  select,
+  textarea {
+    width: calc(100% - 40px);
+  }
+
+  select[size] {
+    max-width: 100%;
+  }
 }

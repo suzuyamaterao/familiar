@@ -10,12 +10,14 @@ import jakarta.persistence.*;
  */
 @Entity
 @Table(name = "CODE_MST")
+@IdClass(CodeMstId.class)
 public class CodeMst {
 
     @Id
     @Column(name = "GROUP_ID", length = 20, nullable = false)
     private String groupId;
 
+    @Id
     @Column(name = "CODE_ID", length = 3, nullable = false)
     private String codeId;
 
