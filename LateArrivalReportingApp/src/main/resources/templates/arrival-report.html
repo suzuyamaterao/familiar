@@ -11,11 +11,37 @@
     <header>到着報告</header>
     <main class="form-container">
         <form id="train-tab" action="/submit-train-delay" method="post">
-        <div class="arrival-time">
-            <label>到着時間: <input type="time" name="arrival_time" required /></label>
+        <!-- 実環境ではログインユーザーの empId を埋める -->
+        <input type="hidden" name="empId" value="0000000000" />
+         <div class="arrival-time">
+             <label class="checkbox-label">
+                 <input type="checkbox" id="on_time" name="on_time" value="true" />
+                 間に合った場合は、チェック(他、入力不要)
+             </label>
+         </div>
+        <!-- 山手線遅延情報があれば表示。LateTbl に存在し TRAIN_ID が null なら表示されない -->
+        <div class="arrival-time" th:if="${DelayLabel != null}">
+            <label class="time-label">
+                <span class="label-text" th:text="${DelayLabel}">遅延時間</span>
+                <!-- 表示だけでよければ disabled に。必要ならユーザー編集可に変更 -->
+                <input type="time" name="train_delay_time" th:value="${DelayTime}" disabled />
+            </label>
         </div>
         <div class="arrival-time">
-            <label>遅刻時間: <input type="time" name="arrival_time" required /></label>
+            <label class="time-label">
+                <span class="label-text">到着時間</span>
+                <input type="time" name="arrival_time" />
+            </label>
+        </div>
+        <div class="arrival-time">
+            <label class="time-label">
+                <span class="label-text">遅刻時間</span>
+                <input type="time" name="late_time" />
+            </label>
+        </div>
+        <div class="other-reason">
+            <label>連絡事項</label>
+            <textarea name="reason" rows="4" cols="40" placeholder="連絡事項があれば（任意）"></textarea>
         </div>
         <div class="submit-section">
             <button type="submit">送信</button>
