@@ -34,6 +34,6 @@ build/
 
 # local secrets
 .env
-LateArrivalReportingApp/secrets.env
+LateArrivalReportingApp/.env
 # prevent accidental check-in of VSCode env files
 .vscode/*env*
