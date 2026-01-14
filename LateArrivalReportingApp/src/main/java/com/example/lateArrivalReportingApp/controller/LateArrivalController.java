@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.example.lateArrivalReportingApp.model.LateTbl;
 import com.example.lateArrivalReportingApp.repository.LateTblRepository;
-import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 
 @Controller
 public class LateArrivalController {
@@ -47,9 +48,11 @@ public class LateArrivalController {
         try {
             LateTbl entry = new LateTbl();
             entry.setEmpId(empId);
+            entry.setContactDate(ymd);
 
-            String nowHhmm = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-            entry.setContactDate(nowHhmm);
+            // ここで必ず CONTACT_TIME を設定（"HHmm" 形式）
+            String nowHhmm = LocalTime.now().format(DateTimeFormatter.ofPattern("HHmm"));
+            entry.setContactTime(nowHhmm);
 
             entry.setReason(delayReason);
             entry.setTrainId((trainId != null && !trainId.isEmpty()) ? trainId : null);
@@ -58,10 +61,7 @@ public class LateArrivalController {
                 String eta = arrivalTime.replaceAll("\\D", "");
                 if (eta.length() == 3)
                     eta = String.format("%04d", Integer.parseInt(eta));
-                if (eta.length() == 4)
-                    entry.setEta(eta);
-                else
-                    entry.setEta(null);
+                entry.setEta(eta.length() == 4 ? eta : null);
             } else {
                 entry.setEta(null);
             }
