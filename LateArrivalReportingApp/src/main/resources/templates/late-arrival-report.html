@@ -15,6 +15,10 @@
     <main class="form-container">
 
         <form th:action="@{/submit-delay}" method="post">
+            <div th:if="${param.duplicate != null}" class="delay-input" style="color:#c33; font-weight:bold;">
+                本日は既に遅刻報告が提出されています。
+            </div>
+
             <div class="delay-input">
                 <label>遅刻理由:</label>
                 <select id="delayReason" name="delay_reason" required>
@@ -111,8 +115,57 @@
 
             <div class="arrival-time">
                 <label>到着予定時間:</label>
-                <input type="time" name="arrival_time" required />
+                <div>
+                    <select id="arrivalHour" name="arrivalHour" aria-label="時"></select> 時
+                    <select id="arrivalMinute" name="arrivalMinute" aria-label="分"></select> 分
+                    <input type="hidden" id="arrival_time" name="arrival_time" />
+                </div>
             </div>
+
+            <script>
+                (function () {
+                    function pad(n) { return String(n).padStart(2, '0'); }
+
+                    function updateHidden() {
+                        const h = document.getElementById('arrivalHour').value || '00';
+                        const m = document.getElementById('arrivalMinute').value || '00';
+                        document.getElementById('arrival_time').value = h + ':' + m;
+                    }
+
+                    function initArrivalSelects() {
+                        const hourSel = document.getElementById('arrivalHour');
+                        const minSel = document.getElementById('arrivalMinute');
+                        if (!hourSel || !minSel) return;
+
+                        // 時間 00-23
+                        for (let h = 0; h < 24; h++) {
+                            const o = document.createElement('option');
+                            o.value = pad(h);
+                            o.text = pad(h);
+                            hourSel.appendChild(o);
+                        }
+                        // 分 00-59（必要なら step を調整）
+                        for (let m = 0; m < 60; m++) {
+                            const o = document.createElement('option');
+                            o.value = pad(m);
+                            o.text = pad(m);
+                            minSel.appendChild(o);
+                        }
+
+                        const now = new Date();
+                        hourSel.value = pad(now.getHours());
+                        minSel.value = pad(now.getMinutes());
+
+                        hourSel.addEventListener('change', updateHidden);
+                        minSel.addEventListener('change', updateHidden);
+
+                        // 初期 hidden に現在時刻を設定
+                        updateHidden();
+                    }
+
+                    document.addEventListener('DOMContentLoaded', initArrivalSelects);
+                })();
+            </script>
 
             <div class="submit-section">
                 <button type="submit">送信</button>

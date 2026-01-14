@@ -36,15 +36,21 @@ public class LateArrivalController {
             return "redirect:/"; // ログインページ等へ
         }
 
+        // 当日キー (yyyyMMdd)
+        String ymd = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+
+        // 既に当日分の報告がある場合はエラー（2回目以降は例外投げてエラーにする）
+        if (lateTblRepository.existsByEmpIdAndContactDate(empId, ymd)) {
+            logger.warn("duplicate late report attempt: empId={}, date={}", empId, ymd);
+            return "redirect:/late-arrival-report?duplicate=1";
+        }
+
         try {
             LateTbl entry = new LateTbl();
             entry.setEmpId(empId);
 
-            String ymd = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-            entry.setContactDate(ymd);
-
-            String nowHhmm = LocalTime.now().format(DateTimeFormatter.ofPattern("HHmm"));
-            entry.setContactTime(nowHhmm);
+            String nowHhmm = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+            entry.setContactDate(nowHhmm);
 
             entry.setReason(delayReason);
             entry.setTrainId((trainId != null && !trainId.isEmpty()) ? trainId : null);
