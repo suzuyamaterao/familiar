@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.lateArrivalReportingApp.model.LateTbl;
 import com.example.lateArrivalReportingApp.repository.LateTblRepository;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Controller
 public class LateArrivalController {
@@ -36,21 +36,13 @@ public class LateArrivalController {
             return "redirect:/"; // ログインページ等へ
         }
 
-        // 当日キー (yyyyMMdd)
-        String ymd = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-
-        // 既に当日分の報告がある場合はエラー（2回目以降は例外投げてエラーにする）
-        if (lateTblRepository.existsByEmpIdAndContactDate(empId, ymd)) {
-            logger.warn("duplicate late report attempt: empId={}, date={}", empId, ymd);
-            return "redirect:/late-arrival-report?duplicate=1";
-        }
-
         try {
             LateTbl entry = new LateTbl();
             entry.setEmpId(empId);
+
+            String ymd = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
             entry.setContactDate(ymd);
 
-            // ここで必ず CONTACT_TIME を設定（"HHmm" 形式）
             String nowHhmm = LocalTime.now().format(DateTimeFormatter.ofPattern("HHmm"));
             entry.setContactTime(nowHhmm);
 
@@ -61,7 +53,10 @@ public class LateArrivalController {
                 String eta = arrivalTime.replaceAll("\\D", "");
                 if (eta.length() == 3)
                     eta = String.format("%04d", Integer.parseInt(eta));
-                entry.setEta(eta.length() == 4 ? eta : null);
+                if (eta.length() == 4)
+                    entry.setEta(eta);
+                else
+                    entry.setEta(null);
             } else {
                 entry.setEta(null);
             }

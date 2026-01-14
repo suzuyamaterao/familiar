@@ -14,7 +14,7 @@ form {
   width: 100%;
 }
 
-/* 各項目を縦中央揃え */
+/* 各項目を縦方向に中央寄せ */
 .delay-input,
 .arrival-time,
 .other-reason {
@@ -24,73 +24,62 @@ form {
   width: 100%;
 }
 
-/* ラベル内の要素を縦方向に中央揃え */
+/* 各ラベル内の要素を縦方向に中央揃えにする（遅刻理由・詳細・到着時間用） */
 .delay-input label,
 .arrival-time label,
 .other-reason label {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  width: 100%;
+  text-align: center;
+  /* ラベルの文字自体も中央寄せ */
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+/* ============================
+   ラベル・テキスト整形（汎用）
+============================ */
+label {
+  display: block;
   width: 100%;
   text-align: center;
   font-weight: bold;
   margin-bottom: 6px;
 }
 
-/* 入力要素共通（幅を揃える） */
+/* ============================
+   入力欄
+============================ */
 input[type="number"],
 input[type="time"],
 select,
-textarea,
-#trainSearch,
-#trainSelect {
+textarea {
   width: 240px;
   padding: 8px 10px;
   font-size: 1em;
   border-radius: 8px;
   border: 1px solid #ccc;
   margin: 8px auto 0;
+  /* 上部余白 + 中央寄せ */
   box-sizing: border-box;
 }
 
+/* 詳細理由 textarea は少し大きくする */
 textarea {
   min-height: 90px;
   resize: vertical;
 }
 
-/* 遅延路線ブロック横並び */
-#companyBlock {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
+/* プルダウン（選択リスト）サイズ調整 */
+select[size] {
   width: 100%;
-}
-
-#companyBlock>label {
-  width: auto;
-  margin: 0;
-  font-weight: bold;
-  text-align: right;
-}
-
-/* 到着時刻を他と同じ幅に揃えつつ時/分を分割表示 */
-.arrival-time>div {
-  width: 240px;
-  margin: 8px auto 0;
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-}
-
-.arrival-time select {
-  width: calc(50% - 4px);
-  padding: 8px 10px;
-  box-sizing: border-box;
+  max-width: 420px;
+  height: auto;
+  padding: 6px 8px;
 }
 
 /* 非活性時の見た目 */
@@ -102,7 +91,9 @@ textarea:disabled {
   cursor: not-allowed;
 }
 
-/* 送信ボタン */
+/* ============================
+   送信ボタン
+============================ */
 .submit-section {
   display: flex;
   justify-content: center;
@@ -125,23 +116,17 @@ textarea:disabled {
   background-color: #3a6487;
 }
 
-/* レスポンシブ */
+/* レスポンシブ（狭い画面では幅を調整） */
 @media (max-width: 480px) {
 
   input[type="number"],
   input[type="time"],
   select,
-  textarea,
-  #trainSearch,
-  #trainSelect {
+  textarea {
     width: calc(100% - 40px);
   }
 
-  .arrival-time>div {
-    width: calc(100% - 40px);
-  }
-
-  .arrival-time select {
-    width: calc(50% - 12px);
+  select[size] {
+    max-width: 100%;
   }
 }

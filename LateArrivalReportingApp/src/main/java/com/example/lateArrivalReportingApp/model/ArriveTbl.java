@@ -34,23 +34,11 @@ public class ArriveTbl {
     @Column(name = "ARRIVE_TIME", length = 4)
     private String arriveTime;
 
-    @Column(name = "TRAIN_ID_1", length = 3)
-    private String trainId1;
+    @Column(name = "TRAIN_ID", length = 3)
+    private String trainId;
 
-    @Column(name = "DELAY_1", length = 3)
-    private String delay1;
-
-    @Column(name = "TRAIN_ID_2", length = 3)
-    private String trainId2;
-
-    @Column(name = "DELAY_2", length = 3)
-    private String delay2;
-
-    @Column(name = "TRAIN_ID_3", length = 3)
-    private String trainId3;
-
-    @Column(name = "DELAY_3", length = 3)
-    private String delay3;
+    @Column(name = "DELAY", length = 3)
+    private String delay;
 
     @Column(name = "INFORMATION", length = 200)
     private String information;
@@ -106,52 +94,20 @@ public class ArriveTbl {
         this.arriveTime = arriveTime;
     }
 
-    public String getTrainId1() {
-        return trainId1;
+    public String getTrainId() {
+        return trainId;
     }
 
-    public void setTrainId1(String trainId1) {
-        this.trainId1 = trainId1;
+    public void setTrainId1(String trainId) {
+        this.trainId = trainId;
     }
 
-    public String getDelay1() {
-        return delay1;
+    public String getDelay() {
+        return delay;
     }
 
-    public void setDelay1(String delay1) {
-        this.delay1 = delay1;
-    }
-
-    public String getTrainId2() {
-        return trainId2;
-    }
-
-    public void setTrainId2(String trainId2) {
-        this.trainId2 = trainId2;
-    }
-
-    public String getDelay2() {
-        return delay2;
-    }
-
-    public void setDelay2(String delay2) {
-        this.delay2 = delay2;
-    }
-
-    public String getTrainId3() {
-        return trainId3;
-    }
-
-    public void setTrainId3(String trainId3) {
-        this.trainId3 = trainId3;
-    }
-
-    public String getDelay3() {
-        return delay3;
-    }
-
-    public void setDelay3(String delay3) {
-        this.delay3 = delay3;
+    public void setDelay1(String delay) {
+        this.delay = delay;
     }
 
     public String getInformation() {

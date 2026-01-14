@@ -5,6 +5,7 @@ form {
   gap: 20px;
 }
 
+
 .arrival-time {
   display: flex;
   justify-content: center;
@@ -16,6 +17,24 @@ form {
 
 label {
   text-align: center;
+  width: 100%;
+}
+.other-reason label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  text-align: center;
+  /* ラベルの文字自体も中央寄せ */
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+.other-reason {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
 }
 
@@ -55,3 +74,20 @@ input[type="time"] {
 .submit-section button:hover {
   background-color: #3a6487;
 }
+.checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.05rem;
+  cursor: pointer;
+  width: auto;
+  justify-content: center;
+}
+.checkbox-label input[type="checkbox"] {
+  width: 1.15rem;
+  height: 1.15rem;
+  margin: 0;
+  accent-color: #4b79a1;
+  transform: translateY(1px);
+}
+.arrival-time .checkbox-label { width: auto; }
