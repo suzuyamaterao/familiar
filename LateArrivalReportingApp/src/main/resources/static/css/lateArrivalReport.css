@@ -91,6 +91,46 @@ textarea:disabled {
   cursor: not-allowed;
 }
 
+#trainSearch {
+  width: 240px;
+  /* select と同じ幅に */
+  padding: 8px 10px;
+  /* select と同じ padding */
+  font-size: 1em;
+  /* フォントサイズ統一 */
+  border-radius: 8px;
+  /* 同じ丸み */
+  border: 1px solid #ccc;
+  margin: 8px auto 0;
+  /* 上部余白＋中央寄せ */
+  box-sizing: border-box;
+}
+
+/* 遅延している路線名だけ横並びのままにする */
+#companyBlock {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+/* ラベルだけは左寄せに戻す */
+#companyBlock>label {
+  width: auto;
+  margin: 0;
+  font-weight: bold;
+  text-align: right;
+}
+
+/* 入力欄（検索欄＋プルダウン）は幅240pxに統一 */
+#trainSearch,
+#trainSelect {
+  width: 240px !important;
+}
+
+
 /* ============================
    送信ボタン
 ============================ */
