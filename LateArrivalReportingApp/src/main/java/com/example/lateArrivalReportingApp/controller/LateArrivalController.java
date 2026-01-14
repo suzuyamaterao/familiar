@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.example.lateArrivalReportingApp.model.LateTbl;
 import com.example.lateArrivalReportingApp.repository.LateTblRepository;
-import java.time.LocalTime;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 

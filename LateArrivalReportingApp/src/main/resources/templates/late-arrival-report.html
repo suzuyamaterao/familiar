@@ -20,7 +20,7 @@
             </div>
 
             <div class="delay-input">
-                <label>遅刻理由:</label>
+                <label>遅刻理由</label>
                 <select id="delayReason" name="delay_reason" required>
                     <option value="" disabled selected>選択してください</option>
                     <option th:each="c : ${delayReasons}" th:value="${c.codeId}" th:text="${c.codeName}">理由</option>
@@ -30,7 +30,7 @@
 
             <div id="companyBlock" class="delay-input" style="display:none;">
 
-                <label>遅延している路線名:</label>
+                <label>遅延している路線名</label>
 
                 <input type="text" id="trainSearch" placeholder="路線名で検索（例: 山手）" />
 
@@ -108,16 +108,16 @@
             </script>
 
             <div class="other-reason">
-                <label>詳細理由:</label>
+                <label>詳細理由</label>
                 <textarea name="reason" rows="4" cols="40" placeholder="遅刻の詳細（任意）"></textarea>
                 </label>
             </div>
 
             <div class="arrival-time">
-                <label>到着予定時間:</label>
+                <label>到着予定時間</label>
                 <div>
-                    <select id="arrivalHour" name="arrivalHour" aria-label="時"></select> 時
-                    <select id="arrivalMinute" name="arrivalMinute" aria-label="分"></select> 分
+                    <select id="arrivalHour" aria-label="時"></select> 時
+                    <select id="arrivalMinute" aria-label="分"></select> 分
                     <input type="hidden" id="arrival_time" name="arrival_time" />
                 </div>
             </div>
