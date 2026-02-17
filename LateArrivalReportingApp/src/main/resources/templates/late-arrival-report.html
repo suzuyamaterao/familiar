@@ -60,7 +60,13 @@
                         const select = document.getElementById('trainSelect');
                         if (!search || !select) return;
 
-                        // 元の option 要素を保持（placeholder を除く）
+                        // ★ Enterで送信しない
+                        search.addEventListener('keydown', function (e) {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                            }
+                        });
+
                         const placeholder = select.querySelector('option[disabled][selected]');
                         const originalOptions = Array.from(select.querySelectorAll('option'))
                             .filter(o => !(o.disabled && o.selected));
@@ -68,6 +74,7 @@
                         function render(filtered) {
                             select.innerHTML = '';
                             if (placeholder) select.appendChild(placeholder.cloneNode(true));
+
                             if (filtered.length === 0) {
                                 const none = document.createElement('option');
                                 none.disabled = true;
@@ -92,9 +99,9 @@
                         }
 
                         search.addEventListener('input', filterOptions);
-                        // 初期は全件をレンダリング（プルダウン）
                         render(originalOptions);
                     }
+
 
                     document.addEventListener('DOMContentLoaded', function () {
                         const delay = document.getElementById('delayReason');

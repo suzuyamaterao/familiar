@@ -52,6 +52,10 @@ public class LateArrivalController {
             String nowHhmm = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
             entry.setContactDate(nowHhmm);
 
+            String nowTime = LocalTime.now()
+                    .format(DateTimeFormatter.ofPattern("HHmm"));
+            entry.setContactTime(nowTime);
+
             entry.setReason(delayReason);
             entry.setTrainId((trainId != null && !trainId.isEmpty()) ? trainId : null);
 

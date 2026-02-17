@@ -37,9 +37,7 @@ form {
 input[type="number"],
 input[type="time"],
 select:not(.arrival-select),
-textarea,
-#trainSearch,
-#trainSelect {
+textarea {
   width: 240px;
   padding: 10px 12px;
   font-size: 1em;
@@ -113,7 +111,7 @@ textarea:disabled {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 400px;
 }
 
 #companyBlock>label {
@@ -124,10 +122,24 @@ textarea:disabled {
 /* 横並びコンテナ（他と幅を揃える） */
 #companyBlock .company-row {
   display: flex;
-  gap: 12px;
-  width: 240px;
-  /* ← 他の入力と完全統一 */
+  width: 100%;
+  gap: 16px;
+  align-items: center;
 }
+
+#companyBlock .company-row input,
+#companyBlock .company-row select {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  font-size: 1em;
+  border-radius: 10px;
+  margin-top: 8px;
+  border: 1px solid #d0d7de;
+  background-color: #ffffff;
+  box-sizing: border-box;
+}
+
 
 /* ===== 送信ボタン ===== */
 .submit-section {
@@ -163,9 +175,11 @@ textarea:disabled {
 
   input[type="number"],
   input[type="time"],
+  input[type="text"],
   select:not(.arrival-select),
   textarea,
-  #trainSearch,
+  trainSearch,
+
   #trainSelect {
     width: calc(100% - 40px);
   }
