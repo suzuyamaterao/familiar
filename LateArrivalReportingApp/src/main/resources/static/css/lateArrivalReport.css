@@ -5,16 +5,16 @@
   text-align: center;
 }
 
-/* フォーム全体を中央寄せ */
+/* フォーム全体 */
 form {
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 28px;
   align-items: center;
   width: 100%;
 }
 
-/* 各項目を縦方向に中央寄せ */
+/* 各ブロック */
 .delay-input,
 .arrival-time,
 .other-reason {
@@ -24,65 +24,82 @@ form {
   width: 100%;
 }
 
-/* 各ラベル内の要素を縦方向に中央揃えにする（遅刻理由・詳細・到着時間用） */
+/* ラベル */
 .delay-input label,
 .arrival-time label,
 .other-reason label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  text-align: center;
-  /* ラベルの文字自体も中央寄せ */
   font-weight: bold;
   margin-bottom: 6px;
-}
-
-/* ============================
-   ラベル・テキスト整形（汎用）
-============================ */
-label {
-  display: block;
-  width: 100%;
   text-align: center;
-  font-weight: bold;
-  margin-bottom: 6px;
 }
 
-/* ============================
-   入力欄
-============================ */
+/* ===== 共通入力デザイン ===== */
 input[type="number"],
 input[type="time"],
-select,
-textarea {
+select:not(.arrival-select),
+textarea,
+#trainSearch,
+#trainSelect {
   width: 240px;
-  padding: 8px 10px;
+  padding: 10px 12px;
   font-size: 1em;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  margin: 8px auto 0;
-  /* 上部余白 + 中央寄せ */
+  border-radius: 10px;
+  border: 1px solid #d0d7de;
+  margin-top: 8px;
   box-sizing: border-box;
+  background-color: #ffffff;
+  transition: all 0.2s ease;
 }
 
-/* 詳細理由 textarea は少し大きくする */
+/* フォーカス時 */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #4b79a1;
+  box-shadow: 0 0 0 3px rgba(75, 121, 161, 0.15);
+}
+
+/* テキストエリア */
 textarea {
-  min-height: 90px;
+  min-height: 100px;
   resize: vertical;
 }
 
-/* プルダウン（選択リスト）サイズ調整 */
-select[size] {
-  width: 100%;
-  max-width: 420px;
-  height: auto;
-  padding: 6px 8px;
+/* ===== 到着予定時間（アップグレード版） ===== */
+.arrival-time>div {
+  width: 240px;
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #d0d7de;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
-/* 非活性時の見た目 */
+/* 到着時間フォーカス時 */
+.arrival-time>div:focus-within {
+  border-color: #4b79a1;
+  box-shadow: 0 0 0 3px rgba(75, 121, 161, 0.15);
+}
+
+/* 中のselect */
+.arrival-select {
+  width: 70px;
+  border: none;
+  background: transparent;
+  font-size: 1em;
+  text-align: center;
+  outline: none;
+  appearance: none;
+}
+
+/* 非活性 */
 select:disabled,
 input:disabled,
 textarea:disabled {
@@ -91,9 +108,28 @@ textarea:disabled {
   cursor: not-allowed;
 }
 
-/* ============================
-   送信ボタン
-============================ */
+/* ===== 遅延路線ブロック ===== */
+#companyBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+#companyBlock>label {
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+/* 横並びコンテナ（他と幅を揃える） */
+#companyBlock .company-row {
+  display: flex;
+  gap: 12px;
+  width: 240px;
+  /* ← 他の入力と完全統一 */
+}
+
+/* ===== 送信ボタン ===== */
 .submit-section {
   display: flex;
   justify-content: center;
@@ -101,32 +137,44 @@ textarea:disabled {
 }
 
 .submit-section button {
-  background-color: #4b79a1;
+  background: linear-gradient(135deg, #4b79a1, #3a6487);
   color: white;
-  padding: 12px 24px;
+  padding: 13px 30px;
   font-size: 1.1em;
   border: none;
-  border-radius: 12px;
+  border-radius: 14px;
   cursor: pointer;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.2s;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
 }
 
 .submit-section button:hover {
-  background-color: #3a6487;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
 }
 
-/* レスポンシブ（狭い画面では幅を調整） */
+.submit-section button:active {
+  transform: translateY(0px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== レスポンシブ ===== */
 @media (max-width: 480px) {
 
   input[type="number"],
   input[type="time"],
-  select,
-  textarea {
+  select:not(.arrival-select),
+  textarea,
+  #trainSearch,
+  #trainSelect {
     width: calc(100% - 40px);
   }
 
-  select[size] {
-    max-width: 100%;
+  .arrival-time>div {
+    width: calc(100% - 40px);
+  }
+
+  .arrival-select {
+    width: 40%;
   }
 }

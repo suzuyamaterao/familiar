@@ -2,8 +2,8 @@ package com.example.lateArrivalReportingApp.repository;
 
 import com.example.lateArrivalReportingApp.model.LateTbl;
 import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.Optional;
 
 public interface LateTblRepository extends JpaRepository<LateTbl, String> {
-    Optional<LateTbl> findByEmpIdAndContactDate(String empId, String contactDate);
+    // 当日分の報告が既に存在するか確認するメソッド
+    boolean existsByEmpIdAndContactDate(String empId, String contactDate);
 }
