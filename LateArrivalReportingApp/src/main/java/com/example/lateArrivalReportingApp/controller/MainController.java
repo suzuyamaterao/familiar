@@ -63,9 +63,16 @@ public class MainController {
     }
 
     // 既存のリンク (/arrival-report) に対応するエイリアス
-    @GetMapping("/arrival-report")
+    @GetMapping("/arrival-report-alias")
     public String showLateArrivalReportAlias(HttpSession session, Model model) {
-        return showArrivalReport(session, model);
+        String empId = (String) session.getAttribute("empId");
+        if (empId == null) {
+            return "redirect:/";
+        }
+
+        model.addAttribute("empId", empId);
+
+        return "redirect:/arrival-report";
     }
 
     @GetMapping("/main")
@@ -101,31 +108,5 @@ public class MainController {
             model.addAttribute("empFname", e.getEmpFname());
         });
         return "history";
-    }
-
-    @GetMapping("/route-setting")
-    public String showRouteSetting(HttpSession session, Model model) {
-        String empId = (String) session.getAttribute("empId");
-        if (empId == null)
-            return "redirect:/";
-        model.addAttribute("empId", empId);
-        employeeMstRepository.findById(empId).ifPresent(e -> {
-            model.addAttribute("empLname", e.getEmpLname());
-            model.addAttribute("empFname", e.getEmpFname());
-        });
-        return "route-setting";
-    }
-
-    @GetMapping("/user-register")
-    public String showSiteEmployeeRegistration(HttpSession session, Model model) {
-        String empId = (String) session.getAttribute("empId");
-        if (empId == null)
-            return "redirect:/";
-        model.addAttribute("empId", empId);
-        employeeMstRepository.findById(empId).ifPresent(e -> {
-            model.addAttribute("empLname", e.getEmpLname());
-            model.addAttribute("empFname", e.getEmpFname());
-        });
-        return "user-register";
     }
 }

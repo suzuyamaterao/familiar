@@ -8,7 +8,6 @@ import com.example.lateArrivalReportingApp.model.ArriveTbl;
 import com.example.lateArrivalReportingApp.repository.TrainMstRepository;
 import com.example.lateArrivalReportingApp.repository.LateTblRepository;
 import com.example.lateArrivalReportingApp.repository.ArriveTblRepository;
-import java.util.List;
 import java.util.Optional;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -38,12 +37,13 @@ public class ArrivalReportService {
      */
     public TrainInfo getTrainInfo(String empId, String contactDate) {
         Optional<LateTbl> lateOpt = lateTblRepository.findByEmpIdAndContactDate(empId, contactDate);
+
         if (lateOpt.isEmpty())
             return null;
         LateTbl late = lateOpt.get();
         String trainId = late.getTrainId();
         if (trainId == null || trainId.isBlank())
-            return null;
+            return new TrainInfo(null, null);
 
         Optional<TrainMst> tmOpt = trainMstRepository.findByTrainId(trainId);
         if (tmOpt.isEmpty())

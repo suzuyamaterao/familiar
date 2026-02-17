@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ルート設定</title>
   <link rel="stylesheet" href="css/common.css" />
   <link rel="stylesheet" href="css/routeSetting.css" />
 </head>
+
 <body>
   <header>ルート設定</header>
 
@@ -18,7 +20,7 @@
           <select onchange="handleLineChange(this, 1)" name="line1">
             <option value="">未選択</option>
             <option value="yamanote">山手線</option>
-            <option value="chuo">中央線</option>  
+            <option value="chuo">中央線</option>
           </select>
         </label>
         <label>駅名1:
@@ -64,12 +66,12 @@
     </form>
   </main>
 
-  <footer>&copy; 2025 遅刻報告アプリ</footer>
+  <footer>&copy; 2026 遅刻報告アプリ</footer>
 
   <script>
     const stationOptions = {
-      yamanote: ["未選択","新宿", "渋谷", "池袋", "上野"],
-      chuo: ["未選択","三鷹", "吉祥寺", "中野", "御茶ノ水"]
+      yamanote: ["未選択", "新宿", "渋谷", "池袋", "上野"],
+      chuo: ["未選択", "三鷹", "吉祥寺", "中野", "御茶ノ水"]
     };
 
     function handleLineChange(selectEl, index) {
@@ -94,4 +96,5 @@
     }
   </script>
 </body>
+
 </html>
