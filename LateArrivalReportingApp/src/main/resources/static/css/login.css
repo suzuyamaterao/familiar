@@ -68,19 +68,3 @@ button:hover {
   font-size: 0.9em;
   color: #aaa;
 }
-
-.forgot-link {
-  margin-top: 20px;
-}
-
-.forgot-link a {
-  font-size: 0.95em;
-  color: #4b79a1;
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.forgot-link a:hover {
-  color: #3a6487;
-  text-decoration: underline;
-}
