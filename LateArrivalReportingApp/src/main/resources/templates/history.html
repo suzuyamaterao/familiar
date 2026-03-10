@@ -16,7 +16,7 @@
 
     <!-- 上部情報 -->
     <div class="user-info">
-      社員番号：1234567　ログイン名：tanaka
+      <span th:text="'ログイン名：' + ${empLname} + ' ' + ${empFname}"></span>
       <button class="csv-button">CSVダウンロード</button>
     </div>
 
@@ -24,24 +24,23 @@
     <form class="search-form">
       <div class="form-row">
         <label>ユニット：
-          <select name="unit">
+          <select name="units">
             <option value="">選択してください</option>
-            <option value="unit1">営業部</option>
-            <option value="unit2">開発部</option>
+            <option th:each="unit : ${units}" th:value="${unit.codeId}" th:text="${unit.codeName}"></option>
           </select>
         </label>
+
         <label>チーム：
-          <select name="team">
+          <select name="teams">
             <option value="">選択してください</option>
-            <option value="team1">Aチーム</option>
-            <option value="team2">Bチーム</option>
+            <option th:each="team : ${teams}" th:value="${team.teamId}" th:text="${team.teamName}"></option>
           </select>
         </label>
         <label>名前：
           <select name="name">
             <option value="">選択してください</option>
-            <option value="yamada">山田 太郎</option>
-            <option value="suzuki">鈴木 花子</option>
+            <option th:each="employee : ${employees}" th:value="${employee.empId}"
+              th:text="|${employee.empLname} ${employee.empFname}|"></option>
           </select>
         </label>
       </div>

@@ -5,8 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import com.example.lateArrivalReportingApp.repository.EmployeeMstRepository;
+import com.example.lateArrivalReportingApp.repository.TeamMstRepository;
 import com.example.lateArrivalReportingApp.repository.TrainMstRepository;
 import com.example.lateArrivalReportingApp.model.EmployeeMst;
+import com.example.lateArrivalReportingApp.model.TeamMst;
 import com.example.lateArrivalReportingApp.model.TrainMst;
 
 import java.util.Optional;
@@ -20,14 +22,17 @@ public class MainController {
     private final EmployeeMstRepository employeeMstRepository;
     private final CodeMstRepository codeMstRepository;
     private final TrainMstRepository trainMstRepository;
+    private final TeamMstRepository teamMstRepository;
 
     // コンストラクタを1つに統一（両リポジトリを注入）
     public MainController(EmployeeMstRepository employeeMstRepository,
             CodeMstRepository codeMstRepository,
-            TrainMstRepository trainMstRepository) {
+            TrainMstRepository trainMstRepository,
+            TeamMstRepository teamMstRepository) {
         this.employeeMstRepository = employeeMstRepository;
         this.codeMstRepository = codeMstRepository;
         this.trainMstRepository = trainMstRepository;
+        this.teamMstRepository = teamMstRepository;
     }
 
     @GetMapping("/late-arrival-report")
@@ -103,10 +108,23 @@ public class MainController {
         if (empId == null)
             return "redirect:/";
         model.addAttribute("empId", empId);
+        // 社員名を model に追加
         employeeMstRepository.findById(empId).ifPresent(e -> {
             model.addAttribute("empLname", e.getEmpLname());
             model.addAttribute("empFname", e.getEmpFname());
         });
+        // ユニット
+        List<CodeMst> units = codeMstRepository.findByGroupId("UNIT");
+        model.addAttribute("units", units);
+
+        // チーム
+        List<TeamMst> teams = teamMstRepository.findAll();
+        model.addAttribute("teams", teams);
+
+        // 社員名
+        List<EmployeeMst> employees = employeeMstRepository.findAll();
+        model.addAttribute("employees", employees);
+
         return "history";
     }
 }
