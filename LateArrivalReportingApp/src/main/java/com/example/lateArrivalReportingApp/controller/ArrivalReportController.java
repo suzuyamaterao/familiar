@@ -92,8 +92,6 @@ public class ArrivalReportController {
         // =========================
         arrivalReportService.saveArrivalReport(empId, onTime, delay, arrivalTime, lateTime, reason);
 
-        redirectAttributes.addFlashAttribute("success", "到着報告を登録しました");
-
         return "redirect:/main";
     }
 }
