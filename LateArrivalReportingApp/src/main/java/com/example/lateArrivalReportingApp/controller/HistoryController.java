@@ -29,10 +29,10 @@ public class HistoryController {
         this.teamMstRepository = teamMstRepository;
         this.employeeMstRepository = employeeMstRepository;
         this.userRolesMstRepository = userRolesMstRepository;
-        
+
     }
 
-    @GetMapping("/employee/search")
+    @GetMapping("/history")
     public String showSearchPage(Model model) {
 
         // 社員ID取得
@@ -42,33 +42,27 @@ public class HistoryController {
 
         // ユーザーロール取得
         List<UserRolesMst> userRoles = userRolesMstRepository.findByRolesId(empId);
-        //model.addAttribute("userRoles", userRoles);
+        // model.addAttribute("userRoles", userRoles);
 
         // 社員IDに紐づくロールIDが4(MEMBER)だった場合
         if (userRoles.stream().anyMatch(r -> r.getRolesId().equals("MEMBER"))) {
             // チームIDに紐づくチームマスタ情報取得
             List<TeamMst> teams = teamMstRepository.findByTeamId(empTermId);
-        model.addAttribute("teams", teams);
+            model.addAttribute("teams", teams);
 
-
-            //model.addAttribute("isAdmin", true);
-        // } else {
-        //     model.addAttribute("isAdmin", false);
+            // model.addAttribute("isAdmin", true);
+            // } else {
+            // model.addAttribute("isAdmin", false);
         }
 
-        
-        
-        
         // ユニット
         List<CodeMst> units = codeMstRepository.findByGroupId("UNIT");
         model.addAttribute("units", units);
-
-
 
         // 社員名
         List<EmployeeMst> employees = employeeMstRepository.findAll();
         model.addAttribute("employees", employees);
 
-        return "employeeSearch"; // ここにユニットとチーム両方の <select> がある
+        return "history"; // ここにユニットとチーム両方の <select> がある
     }
 }
