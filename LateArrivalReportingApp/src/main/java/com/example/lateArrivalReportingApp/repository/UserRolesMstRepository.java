@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface UserRolesMstRepository extends JpaRepository<UserRolesMst, String> {
 
-    List<UserRolesMst> findByGroupId(String rolesId);
+    List<UserRolesMst> findByRolesId(String rolesId);
 
 }

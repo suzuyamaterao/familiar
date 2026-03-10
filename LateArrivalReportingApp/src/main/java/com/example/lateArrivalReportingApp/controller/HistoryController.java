@@ -41,7 +41,7 @@ public class HistoryController {
         String empTermId = (String) model.getAttribute("empTermId");
 
         // ユーザーロール取得
-        List<UserRolesMst> userRoles = userRolesMstRepository.findByGroupId(empId);
+        List<UserRolesMst> userRoles = userRolesMstRepository.findByRolesId(empId);
         //model.addAttribute("userRoles", userRoles);
 
         // 社員IDに紐づくロールIDが4(MEMBER)だった場合
