@@ -16,45 +16,154 @@
 
         <form id="train-tab" th:action="@{/submit-train-delay}" method="post">
 
-            <div th:if="${param.existence != null}" class="delay-input" style="color:#c33; font-weight:bold;">
+            <div th:if="${existence}" class="delay-input" style="color:#c33; font-weight:bold;">
                 まだ遅刻報告が提出されていません。
             </div>
+
+            <div th:if="${already}" style="color:#c33; font-weight:bold;">
+                本日の到着報告はすでに提出されています。
+            </div>
+
+            <!-- 間に合ったチェック -->
             <div class="arrival-time">
                 <label class="checkbox-label">
                     <input type="checkbox" id="on_time" name="on_time" value="true" />
-                    間に合った場合は、チェック(他、入力不要)
+                    間に合った場合は、チェック（他入力不要）
                 </label>
             </div>
-            <!-- 山手線遅延情報があれば表示。LateTbl に存在し TRAIN_ID が null なら表示されない -->
-            <div class="arrival-time" th:if="${DelayLabel != null}">
+
+            <!-- 電車遅延表示 -->
+            <div class="arrival-time" th:if="${trainLabel != null}">
                 <label class="time-label">
-                    <span class="label-text" th:text="${DelayLabel}">遅延時間</span>
-                    <!-- 表示だけでよければ disabled に。必要ならユーザー編集可に変更 -->
-                    <input type="time" name="train_delay_time" th:value="${DelayTime}" />
+                    <span class="label-text" th:text="${trainLabel}">遅延時間</span>
+                    <input type="time" name="train_delay_time" th:value="${trainTime}" />
                 </label>
             </div>
+
+            <!-- 到着時間 -->
             <div class="arrival-time">
                 <label class="time-label">
                     <span class="label-text">到着時間</span>
-                    <input type="time" name="arrival_time" />
                 </label>
+                <div>
+                    <select id="arrivalHour" class="arrival-select"></select> 時
+                    <select id="arrivalMinute" class="arrival-select"></select> 分
+                    <input type="hidden" id="arrival_time" name="arrival_time" />
+                </div>
             </div>
+
+            <!-- 遅刻時間 -->
             <div class="arrival-time">
                 <label class="time-label">
                     <span class="label-text">遅刻時間</span>
-                    <input type="time" name="late_time" />
                 </label>
+                <div>
+                    <select id="lateHour" class="arrival-select"></select> 時
+                    <select id="lateMinute" class="arrival-select"></select> 分
+                    <input type="hidden" id="late_time" name="late_time" />
+                </div>
             </div>
+
+            <!-- 連絡事項 -->
             <div class="other-reason">
                 <label>連絡事項</label>
                 <textarea name="reason" rows="4" cols="40" placeholder="連絡事項があれば（任意）"></textarea>
             </div>
+
             <div class="submit-section">
                 <button type="submit">送信</button>
             </div>
+
         </form>
+
     </main>
+
     <footer>&copy; 2026 遅刻報告アプリ</footer>
+
+    <script>
+
+        (function () {
+
+            function pad(n) {
+                return String(n).padStart(2, '0');
+            }
+
+            function updateHidden() {
+
+                const ah = document.getElementById("arrivalHour").value || "00";
+                const am = document.getElementById("arrivalMinute").value || "00";
+
+                const lh = document.getElementById("lateHour").value || "00";
+                const lm = document.getElementById("lateMinute").value || "00";
+
+                document.getElementById("arrival_time").value = ah + ":" + am;
+                document.getElementById("late_time").value = lh + ":" + lm;
+
+            }
+
+            function fillSelect(hourId, minuteId) {
+
+                const hourSel = document.getElementById(hourId);
+                const minSel = document.getElementById(minuteId);
+
+                for (let h = 0; h < 24; h++) {
+                    const o = document.createElement("option");
+                    o.value = pad(h);
+                    o.text = pad(h);
+                    hourSel.appendChild(o);
+                }
+
+                for (let m = 0; m < 60; m++) {
+                    const o = document.createElement("option");
+                    o.value = pad(m);
+                    o.text = pad(m);
+                    minSel.appendChild(o);
+                }
+
+                const now = new Date();
+
+                hourSel.value = pad(now.getHours());
+                minSel.value = pad(now.getMinutes());
+
+                hourSel.addEventListener("change", updateHidden);
+                minSel.addEventListener("change", updateHidden);
+
+            }
+
+            function toggleDisable() {
+
+                const check = document.getElementById("on_time").checked;
+
+                const selects = [
+                    "arrivalHour",
+                    "arrivalMinute",
+                    "lateHour",
+                    "lateMinute"
+                ];
+
+                selects.forEach(id => {
+                    document.getElementById(id).disabled = check;
+                });
+
+            }
+
+            document.addEventListener("DOMContentLoaded", function () {
+
+                fillSelect("arrivalHour", "arrivalMinute");
+                fillSelect("lateHour", "lateMinute");
+
+                updateHidden();
+
+                const check = document.getElementById("on_time");
+
+                check.addEventListener("change", toggleDisable);
+
+            });
+
+        })();
+
+    </script>
+
 </body>
 
 </html>

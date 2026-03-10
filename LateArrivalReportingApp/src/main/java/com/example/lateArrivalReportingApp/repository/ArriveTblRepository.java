@@ -4,5 +4,5 @@ import com.example.lateArrivalReportingApp.model.ArriveTbl;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ArriveTblRepository extends JpaRepository<ArriveTbl, String> {
-
+    boolean existsByEmpIdAndContactDate(String empId, String contactDate);
 }

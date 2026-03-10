@@ -1,6 +1,7 @@
 package com.example.lateArrivalReportingApp.model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -14,12 +15,8 @@ import jakarta.persistence.Table;
 @Table(name = "LATE_TBL")
 public class LateTbl {
 
-    @Id
-    @Column(name = "EMP_ID", length = 10, nullable = false)
-    private String empId;
-
-    @Column(name = "CONTACT_DATE", length = 8, nullable = false)
-    private String contactDate;
+    @EmbeddedId
+    private LateTblId id;
 
     @Column(name = "CONTACT_TIME", length = 4, nullable = false)
     private String contactTime;
@@ -39,20 +36,12 @@ public class LateTbl {
     public LateTbl() {
     }
 
-    public String getEmpId() {
-        return empId;
+    public LateTblId getId() {
+        return id;
     }
 
-    public void setEmpId(String empId) {
-        this.empId = empId;
-    }
-
-    public String getContactDate() {
-        return contactDate;
-    }
-
-    public void setContactDate(String contactDate) {
-        this.contactDate = contactDate;
+    public void setId(LateTblId id) {
+        this.id = id;
     }
 
     public String getContactTime() {

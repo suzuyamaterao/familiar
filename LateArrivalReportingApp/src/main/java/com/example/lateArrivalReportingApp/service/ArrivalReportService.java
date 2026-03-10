@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.lateArrivalReportingApp.model.TrainMst;
 import com.example.lateArrivalReportingApp.model.LateTbl;
+import com.example.lateArrivalReportingApp.model.LateTblId;
 import com.example.lateArrivalReportingApp.model.ArriveTbl;
 import com.example.lateArrivalReportingApp.repository.TrainMstRepository;
 import com.example.lateArrivalReportingApp.repository.LateTblRepository;
@@ -36,32 +37,46 @@ public class ArrivalReportService {
      * 見つからない／TRAIN_ID が null の場合は null を返す。
      */
     public TrainInfo getTrainInfo(String empId, String contactDate) {
-        Optional<LateTbl> lateOpt = lateTblRepository.findByEmpIdAndContactDate(empId, contactDate);
+
+        Optional<LateTbl> lateOpt = lateTblRepository.findById(new LateTblId(empId, contactDate));
 
         if (lateOpt.isEmpty())
             return null;
+
         LateTbl late = lateOpt.get();
+
         String trainId = late.getTrainId();
+
         if (trainId == null || trainId.isBlank())
             return new TrainInfo(null, null);
 
         Optional<TrainMst> tmOpt = trainMstRepository.findByTrainId(trainId);
+
         if (tmOpt.isEmpty())
             return null;
+
         String railway = tmOpt.get().getRailway();
 
-        String label = railway;
-        return new TrainInfo(label, null);
+        String eta = late.getEta();
+
+        String hhmm = null;
+
+        if (eta != null && eta.length() == 4) {
+            hhmm = eta.substring(0, 2) + ":" + eta.substring(2);
+        }
+
+        return new TrainInfo(railway, hhmm);
     }
 
     /**
      * 到着報告を受け取り ArriveTbl に保存する。
      * フォームの time は "HH:mm"、DB は "HHmm" / delay は分を文字列で保存。
      */
-    public void saveArrivalReport(String empId, String onTime, String Delay, String arrivalTime,
-            String lateTime, String reason) {
+    public void saveArrivalReport(String empId, String onTime, String delay,
+            String arrivalTime, String lateTime, String reason) {
+
         if (empId == null || empId.isBlank()) {
-            empId = "0000000000";
+            throw new IllegalStateException("empId not found in session");
         }
 
         DateTimeFormatter dateFmt = DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -69,6 +84,12 @@ public class ArrivalReportService {
 
         String contactDate = LocalDate.now().format(dateFmt);
         String contactTime = LocalTime.now().format(timeFmt);
+
+        LateTblId id = new LateTblId(empId, contactDate);
+
+        if (!lateTblRepository.existsById(id)) {
+            throw new IllegalStateException("遅刻報告が存在しません");
+        }
 
         ArriveTbl a = new ArriveTbl();
         a.setEmpId(empId);
@@ -80,25 +101,21 @@ public class ArrivalReportService {
         if (arrivalTime != null && !arrivalTime.isBlank()) {
             a.setArriveTime(arrivalTime.replace(":", ""));
         }
+
         if (lateTime != null && !lateTime.isBlank()) {
             a.setLateTime(lateTime.replace(":", ""));
         }
-
-        if (Delay != null && !Delay.isBlank()) {
-            try {
-                LocalTime t = LocalTime.parse(Delay);
-                int minutes = t.getHour() * 60 + t.getMinute();
-                a.setDelay1(String.valueOf(minutes));
-            } catch (Exception e) {
-                a.setDelay1(null);
-            }
-        }
-
-        // 固定値または LateTbl から取得する等必要に応じて変更
-        a.setTrainId1("001");
 
         a.setInformation(reason);
 
         arriveTblRepository.save(a);
     }
+
+    /**
+     * 当日の到着報告が既に存在するかチェック
+     */
+    public boolean existsArrivalReport(String empId, String contactDate) {
+        return arriveTblRepository.existsByEmpIdAndContactDate(empId, contactDate);
+    }
+
 }
