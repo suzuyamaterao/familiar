@@ -8,7 +8,7 @@ import com.example.lateArrivalReportingApp.repository.EmployeeMstRepository;
 import com.example.lateArrivalReportingApp.repository.TeamMstRepository;
 import com.example.lateArrivalReportingApp.repository.TrainMstRepository;
 import com.example.lateArrivalReportingApp.model.EmployeeMst;
-import com.example.lateArrivalReportingApp.model.TeamMst;
+
 import com.example.lateArrivalReportingApp.model.TrainMst;
 
 import java.util.Optional;
@@ -22,7 +22,6 @@ public class MainController {
     private final EmployeeMstRepository employeeMstRepository;
     private final CodeMstRepository codeMstRepository;
     private final TrainMstRepository trainMstRepository;
-    private final TeamMstRepository teamMstRepository;
 
     // コンストラクタを1つに統一（両リポジトリを注入）
     public MainController(EmployeeMstRepository employeeMstRepository,
@@ -32,7 +31,6 @@ public class MainController {
         this.employeeMstRepository = employeeMstRepository;
         this.codeMstRepository = codeMstRepository;
         this.trainMstRepository = trainMstRepository;
-        this.teamMstRepository = teamMstRepository;
     }
 
     @GetMapping("/late-arrival-report")
@@ -94,6 +92,7 @@ public class MainController {
             EmployeeMst emp = empOpt.get();
             model.addAttribute("empLname", emp.getEmpLname());
             model.addAttribute("empFname", emp.getEmpFname());
+            model.addAttribute("empTermId", emp.getTeamId());
         } else {
             model.addAttribute("empLname", "");
             model.addAttribute("empFname", "");
@@ -113,17 +112,21 @@ public class MainController {
             model.addAttribute("empLname", e.getEmpLname());
             model.addAttribute("empFname", e.getEmpFname());
         });
-        // ユニット
-        List<CodeMst> units = codeMstRepository.findByGroupId("UNIT");
-        model.addAttribute("units", units);
+//         System.out.println("処理開始");
+//         // ユニット
+//         List<CodeMst> units = codeMstRepository.findByGroupId("UNIT");
+// System.out.println("Units: " + units);
+//         model.addAttribute("units", units);
 
-        // チーム
-        List<TeamMst> teams = teamMstRepository.findAll();
-        model.addAttribute("teams", teams);
+//         // チーム
+//         List<TeamMst> teams = teamMstRepository.findAll();
+// System.out.println("Teams: " + teams);
+//         model.addAttribute("teams", teams);
 
-        // 社員名
-        List<EmployeeMst> employees = employeeMstRepository.findAll();
-        model.addAttribute("employees", employees);
+//         // 社員名
+//         List<EmployeeMst> employees = employeeMstRepository.findAll();
+//            System.out.println("Employees: " + employees);
+//         model.addAttribute("employees", employees);
 
         return "history";
     }
