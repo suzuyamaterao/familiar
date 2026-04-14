@@ -46,10 +46,11 @@
                     <span class="label-text">到着時間</span>
                 </label>
                 <div>
-                    <select id="arrivalHour" class="arrival-select"></select> 時
-                    <select id="arrivalMinute" class="arrival-select"></select> 分
+                    <select id="arrivalHour" name="arrivalHour" class="arrival-select" aria-label="時"></select> 時
+                    <select id="arrivalMinute" name="arrivalMinute" class="arrival-select" aria-label="分"></select> 分
                     <input type="hidden" id="arrival_time" name="arrival_time" />
                 </div>
+
             </div>
 
             <!-- 遅刻時間 -->
@@ -58,8 +59,8 @@
                     <span class="label-text">遅刻時間</span>
                 </label>
                 <div>
-                    <select id="lateHour" class="arrival-select"></select> 時
-                    <select id="lateMinute" class="arrival-select"></select> 分
+                    <select id="lateHour" class="arrival-select" aria-label="時"></select> 時
+                    <select id="lateMinute" class="arrival-select" aria-label="分"></select> 分
                     <input type="hidden" id="late_time" name="late_time" />
                 </div>
             </div>
