@@ -27,7 +27,7 @@ public class ArrivalReportService {
         this.arriveTblRepository = arriveTblRepository;
     }
 
-    public static record TrainInfo(String label, String hhmm) {
+    public static record TrainInfo(String label, String trainId) {
     }
 
     /**
@@ -57,22 +57,14 @@ public class ArrivalReportService {
 
         String railway = tmOpt.get().getRailway();
 
-        String eta = late.getEta();
-
-        String hhmm = null;
-
-        if (eta != null && eta.length() == 4) {
-            hhmm = eta.substring(0, 2) + ":" + eta.substring(2);
-        }
-
-        return new TrainInfo(railway, hhmm);
+        return new TrainInfo(railway, trainId);
     }
 
     /**
      * 到着報告を受け取り ArriveTbl に保存する。
      * フォームの time は "HH:mm"、DB は "HHmm" / delay は分を文字列で保存。
      */
-    public void saveArrivalReport(String empId, String onTime, String delay,
+    public void saveArrivalReport(String empId, String onTime, String trainId, String delay,
             String arrivalTime, String lateTime, String reason) {
 
         if (empId == null || empId.isBlank()) {
@@ -96,16 +88,25 @@ public class ArrivalReportService {
         a.setContactDate(contactDate);
         a.setContactTime(contactTime);
 
-        a.setLateUmu(onTime != null ? "0" : "1");
+        a.setLateUmu(onTime != null ? "2" : "1");
+        if (onTime == null || onTime.isBlank()) {
+            if (arrivalTime != null && !arrivalTime.isBlank()) {
+                a.setArriveTime(arrivalTime.replace(":", ""));
+            }
+            if (lateTime != null && !lateTime.isBlank()) {
+                a.setLateTime(lateTime.replace(":", ""));
+            }
 
-        if (arrivalTime != null && !arrivalTime.isBlank()) {
-            a.setArriveTime(arrivalTime.replace(":", ""));
+            if (lateTime != null && !lateTime.isBlank()) {
+                a.setLateTime(lateTime.replace(":", ""));
+            }
+            if (trainId != null && !trainId.isBlank()) {
+                a.setTrainId(trainId);
+            }
+            if (delay != null && !delay.isBlank()) {
+                a.setDelay(delay);
+            }
         }
-
-        if (lateTime != null && !lateTime.isBlank()) {
-            a.setLateTime(lateTime.replace(":", ""));
-        }
-
         a.setInformation(reason);
 
         arriveTblRepository.save(a);

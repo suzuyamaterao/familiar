@@ -1,88 +1,122 @@
+/* ===== フォーム全体 ===== */
 form {
   display: flex;
   flex-direction: column;
+  gap: 28px;
+  /* lateArrivalReport.css に合わせる */
   align-items: center;
-  gap: 20px;
+  width: 100%;
 }
 
-
+/* ===== 各ブロック（遅延時間／到着時間／遅刻時間） ===== */
 .arrival-time {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  /* ★横並び→縦並びにする */
   align-items: center;
-  font-size: 1.1em;
   width: 100%;
-  margin-bottom: 20px;
+  font-size: 1.1em;
+  margin-bottom: 0;
+  /* gapで間隔を取るのでここは0でもOK */
 }
 
-label {
-  text-align: center;
-  width: 100%;
-}
-.other-reason label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  text-align: center;
-  /* ラベルの文字自体も中央寄せ */
+/* ===== arrival-time 内のラベルだけ整える（全体 label は触らない） ===== */
+.arrival-time .time-label {
   font-weight: bold;
   margin-bottom: 6px;
+  text-align: center;
 }
-.other-reason {
+
+/*
+ * ★遅延時間は label の中に input[type="time"] が入っているので
+ * label 内を縦並びにして lateArrivalReport と揃える
+ */
+.arrival-time .time-label {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  gap: 8px;
 }
 
-input[type="time"] {
-  width: 120px;
-  padding: 8px;
-  font-size: 1em;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  margin-left: 10px;
-}
-
-.form-container {
-  max-width: 600px;
-  margin: 30px auto;
-  padding: 20px;
-}
-
-.submit-section {
+/* ===== select(時/分)の“枠”を lateArrivalReport と同じにする ===== */
+.arrival-time>div {
+  width: 240px;
+  margin-top: 8px;
   display: flex;
   justify-content: center;
-  width: 100%;
-}
-
-.submit-section button {
-  background-color: #4b79a1;
-  color: white;
-  padding: 12px 24px;
-  font-size: 1.1em;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-  transition: background-color 0.2s;
-}
-
-.submit-section button:hover {
-  background-color: #3a6487;
-}
-.checkbox-label {
-  display: inline-flex;
   align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #d0d7de;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.arrival-time>div:focus-within {
+  border-color: #4b79a1;
+  box-shadow: 0 0 0 3px rgba(75, 121, 161, 0.15);
+}
+
+/* ===== 枠の中のselect（lateArrivalReportと同じ） ===== */
+.arrival-select {
+  width: 70px;
+  border: none;
+  background: transparent;
+  font-size: 1em;
+  text-align: center;
+  outline: none;
+  appearance: none;
+}
+
+/* ===== 遅延時間の input[type="time"] も lateArrivalReport と同じ幅・見た目に ===== */
+.arrival-time input[type="time"] {
+  width: 240px;
+  /* ★120px→240px */
+  padding: 10px 12px;
+  font-size: 1em;
+  border-radius: 10px;
+  border: 1px solid #d0d7de;
+  margin-left: 0;
+  /* ★左マージン削除（中央揃え） */
+  box-sizing: border-box;
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.arrival-time input[type="time"]:focus {
+  outline: none;
+  border-color: #4b79a1;
+  box-shadow: 0 0 0 3px rgba(75, 121, 161, 0.15);
+}
+.other-reason{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+}
+
+.other-reason textarea{
+  width:240px;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #d0d7de;
+  box-sizing:border-box;
+}
+
+/* ===== チェックボックス（現状ほぼOK） ===== */
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
   gap: 0.5rem;
   font-size: 1.05rem;
   cursor: pointer;
-  width: auto;
-  justify-content: center;
+  width: 240px;
+  justify-content: flex-start;
+  text-align: left;
 }
+
 .checkbox-label input[type="checkbox"] {
   width: 1.15rem;
   height: 1.15rem;
@@ -90,4 +124,48 @@ input[type="time"] {
   accent-color: #4b79a1;
   transform: translateY(1px);
 }
-.arrival-time .checkbox-label { width: auto; }
+
+/* ===== 送信ボタン ===== */
+.submit-section {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.submit-section button {
+  background: linear-gradient(135deg, #4b79a1, #3a6487);
+  color: white;
+  padding: 13px 30px;
+  font-size: 1.1em;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.submit-section button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+}
+
+.submit-section button:active {
+  transform: translateY(0px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+/* ===== other-reason は今のままでOK（必要なら late 側に合わせて幅240に揃えられる） ===== */
+
+/* ===== レスポンシブ：lateArrivalReport に合わせる ===== */
+@media (max-width: 480px) {
+  .arrival-time>div {
+    width: calc(100% - 40px);
+  }
+
+  .arrival-time input[type="time"] {
+    width: calc(100% - 40px);
+  }
+
+  .arrival-select {
+    width: 40%;
+  }
+}
