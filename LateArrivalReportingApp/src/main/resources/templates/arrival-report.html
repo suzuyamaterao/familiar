@@ -40,24 +40,19 @@
                 </label>
             </div>
 
-            <!-- 到着時間 -->
+            <!-- 到着時間（★遅刻報告画面のDOM構造に合わせた） -->
             <div class="arrival-time">
-                <label class="time-label">
-                    <span class="label-text">到着時間</span>
-                </label>
+                <label>到着時間:</label>
                 <div>
                     <select id="arrivalHour" name="arrivalHour" class="arrival-select" aria-label="時"></select> 時
                     <select id="arrivalMinute" name="arrivalMinute" class="arrival-select" aria-label="分"></select> 分
                     <input type="hidden" id="arrival_time" name="arrival_time" />
                 </div>
-
             </div>
 
-            <!-- 遅刻時間 -->
+            <!-- 遅刻時間（★遅刻報告画面のDOM構造に合わせた） -->
             <div class="arrival-time">
-                <label class="time-label">
-                    <span class="label-text">遅刻時間</span>
-                </label>
+                <label>遅刻時間:</label>
                 <div>
                     <select id="lateHour" class="arrival-select" aria-label="時"></select> 時
                     <select id="lateMinute" class="arrival-select" aria-label="分"></select> 分
@@ -82,7 +77,6 @@
     <footer>&copy; 2026 遅刻報告アプリ</footer>
 
     <script>
-
         (function () {
 
             function pad(n) {
@@ -162,7 +156,6 @@
             });
 
         })();
-
     </script>
 
 </body>
