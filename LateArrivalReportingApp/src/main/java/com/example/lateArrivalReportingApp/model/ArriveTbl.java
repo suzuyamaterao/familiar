@@ -3,6 +3,7 @@ package com.example.lateArrivalReportingApp.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 
 /**
@@ -12,6 +13,7 @@ import jakarta.persistence.Table;
  * 
  */
 @Entity
+@IdClass(ArriveTblId.class)
 @Table(name = "ARRIVE_TBL")
 public class ArriveTbl {
 
@@ -19,6 +21,7 @@ public class ArriveTbl {
     @Column(name = "EMP_ID", length = 10, nullable = false)
     private String empId;
 
+    @Id
     @Column(name = "CONTACT_DATE", length = 8, nullable = false)
     private String contactDate;
 
@@ -98,7 +101,7 @@ public class ArriveTbl {
         return trainId;
     }
 
-    public void setTrainId1(String trainId) {
+    public void setTrainId(String trainId) {
         this.trainId = trainId;
     }
 
@@ -106,7 +109,7 @@ public class ArriveTbl {
         return delay;
     }
 
-    public void setDelay1(String delay) {
+    public void setDelay(String delay) {
         this.delay = delay;
     }
 
