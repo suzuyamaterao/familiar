@@ -45,7 +45,7 @@ public class ArrivalReportController {
             ArrivalReportService.TrainInfo trainInfo = arrivalReportService.getTrainInfo(empId, contactDate);
             if (trainInfo != null) {
                 model.addAttribute("trainLabel", trainInfo.label());
-                model.addAttribute("trainTime", trainInfo.hhmm());
+                model.addAttribute("trainId", trainInfo.trainId());
             }
         }
 
@@ -58,6 +58,7 @@ public class ArrivalReportController {
             RedirectAttributes redirectAttributes,
             @RequestParam(value = "on_time", required = false) String onTime,
             @RequestParam(value = "train_delay_time", required = false) String delay,
+            @RequestParam(value = "train_id", required = false) String trainId,
             @RequestParam(value = "arrival_time", required = false) String arrivalTime,
             @RequestParam(value = "late_time", required = false) String lateTime,
             @RequestParam(value = "reason", required = false) String reason) {
@@ -90,7 +91,7 @@ public class ArrivalReportController {
         // =========================
         // 保存
         // =========================
-        arrivalReportService.saveArrivalReport(empId, onTime, delay, arrivalTime, lateTime, reason);
+        arrivalReportService.saveArrivalReport(empId, onTime, trainId, delay, arrivalTime, lateTime, reason);
 
         return "redirect:/main";
     }
