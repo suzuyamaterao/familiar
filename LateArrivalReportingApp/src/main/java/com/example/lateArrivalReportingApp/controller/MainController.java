@@ -97,16 +97,33 @@ public class MainController {
         return "main";
     }
 
-    @GetMapping("/history")
+    @GetMapping("/history-alias")
     public String showInquiry(HttpSession session, Model model) {
         String empId = (String) session.getAttribute("empId");
         if (empId == null)
             return "redirect:/";
         model.addAttribute("empId", empId);
-        employeeMstRepository.findById(empId).ifPresent(e -> {
-            model.addAttribute("empLname", e.getEmpLname());
-            model.addAttribute("empFname", e.getEmpFname());
-        });
-        return "history";
+        // // 社員名を model に追加
+        // employeeMstRepository.findById(empId).ifPresent(e -> {
+        // model.addAttribute("empLname", e.getEmpLname());
+        // model.addAttribute("empFname", e.getEmpFname());
+        // });
+        // System.out.println("処理開始");
+        // // ユニット
+        // List<CodeMst> units = codeMstRepository.findByGroupId("UNIT");
+        // System.out.println("Units: " + units);
+        // model.addAttribute("units", units);
+
+        // // チーム
+        // List<TeamMst> teams = teamMstRepository.findAll();
+        // System.out.println("Teams: " + teams);
+        // model.addAttribute("teams", teams);
+
+        // // 社員名
+        // List<EmployeeMst> employees = employeeMstRepository.findAll();
+        // System.out.println("Employees: " + employees);
+        // model.addAttribute("employees", employees);
+
+        return "redirect:/history";
     }
 }
