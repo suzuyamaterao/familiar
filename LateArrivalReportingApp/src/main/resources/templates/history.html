@@ -16,37 +16,58 @@
 
     <!-- 上部情報 -->
     <div class="user-info">
-      社員番号：1234567　ログイン名：tanaka
-      <button class="csv-button">CSVダウンロード</button>
+      <span th:text="'ログイン名：' + ${empLname} + ' ' + ${empFname}"></span>
+      <button type="button" class="csv-button" id="csvBtn">CSVダウンロード</button>
     </div>
 
+    
     <!-- 検索条件フォーム -->
-    <form class="search-form">
+    <form class="search-form" action="/search" method="get">
+      <div class="form-row">
+        <label>期間：
+          <input type="date" name="startDate" th:value="${startDate}" />
+          ～
+          <input type="date" name="endDate" th:value="${endDate}" />
+        </label>
+      </div>
+
       <div class="form-row">
         <label>ユニット：
-          <select name="unit">
+          <select id="unitSelect">
             <option value="">選択してください</option>
-            <option value="unit1">営業部</option>
-            <option value="unit2">開発部</option>
+            <option th:each="unit : ${units}"
+                    th:value="${unit.codeId}"
+                    th:text="${unit.codeName}"
+                    th:selected="${unit.codeId == selectedUnit}">
+            </option>
           </select>
+          <input type="hidden" name="units" id="unitHidden">
         </label>
+
         <label>チーム：
-          <select name="team">
+          <select id="teamSelect">
             <option value="">選択してください</option>
-            <option value="team1">Aチーム</option>
-            <option value="team2">Bチーム</option>
+            <option th:each="team : ${teams}"
+                th:value="${team.teamId}"
+                th:text="${team.teamName}"
+                th:selected="${team.teamId == selectedTeam}">
+            </option>
           </select>
+          <input type="hidden" name="teams" id="teamHidden">
         </label>
         <label>名前：
-          <select name="name">
+          <select id="employeeSelect">
             <option value="">選択してください</option>
-            <option value="yamada">山田 太郎</option>
-            <option value="suzuki">鈴木 花子</option>
+            <option th:each="employee : ${employees}"
+                    th:value="${employee.empId}"
+                    th:text="|${employee.empLname} ${employee.empFname}|"
+                    th:selected="${employee.empId == selectedName}">
+            </option>
           </select>
+          <input type="hidden" name="name" id="nameHidden">
         </label>
       </div>
       <div class="form-row right-align">
-        <button type="button" class="detail-btn">詳細条件設定</button>
         <button type="submit" class="search-btn">検索</button>
       </div>
     </form>
@@ -55,12 +76,45 @@
     <div class="result-area">
       <h2>検索結果</h2>
       <p>ここに検索結果が表示されます。</p>
-      <!-- 実際にはテーブルなど -->
+      <table border="1">
+        <tr>
+          <th>遅刻有無</th>         
+          <th>日付</th>
+          <th>名前</th>
+          <th>理由</th>
+          <th>遅刻時間</th>
+          <th>到着時間</th>
+          <th>路線</th>
+          <th>遅延分</th>
+          <th>連絡時コメント</th>
+          <th>到着時コメント</th>
+        </tr>
+        <tr th:each="item : ${results}">
+          <td th:text="${item.lateUmuNm}"></td>
+          <td th:text="${item.contactDate}"></td>
+          <td th:text="${item.name}"></td>
+          <td th:text="${item.reasonNm}"></td>
+          <td th:text="${item.lateTime}"></td>
+          <td th:text="${item.arriveTime}"></td> 
+          <td th:text="${item.railway}"></td>
+          <td th:text="${item.delay}"></td>
+          <td th:text="${item.lateInformation}"></td>
+          <td th:text="${item.arrInformation}"></td>
+        </tr>
+      </table>
     </div>
 
   </main>
 
   <footer>&copy; 2026 遅刻報告アプリ</footer>
+  <script>
+    // サーバーから渡された値をJavaScript変数に設定
+    const rolesId = '[[${rolesId}]]';
+    const currentUnitNo = '[[${currentUnitNo}]]';
+    const currentTeamId = '[[${currentTeamId}]]';
+    const currentEmpId = '[[${currentEmpId}]]';
+  </script>
+  <script src="js/history-filter.js?v=3"></script>
 </body>
 
 </html>
