@@ -8,7 +8,18 @@ import com.example.lateArrivalReportingApp.repository.CodeMstRepository;
 import com.example.lateArrivalReportingApp.repository.TeamMstRepository;
 import com.example.lateArrivalReportingApp.repository.ViewEmployeeRepository;
 import com.example.lateArrivalReportingApp.repository.ViewLataRepository;
-
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -346,4 +357,148 @@ public class HistoryController {
         return val;
     }
 
+    @GetMapping("/export-excel")
+    public void exportExcel(
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate,
+            @RequestParam(required = false) String units,
+            @RequestParam(required = false) String teams,
+            @RequestParam(required = false) String name,
+            HttpSession session,
+            HttpServletResponse response) throws IOException {
+
+        String empId = (String) session.getAttribute("empId");
+
+        // ===== パラメータ整形 =====
+        units = emptyToNull(units);
+        teams = emptyToNull(teams);
+        name = emptyToNull(name);
+        startDate = formatDate(emptyToNull(startDate));
+        endDate = formatDate(emptyToNull(endDate));
+
+        // ===== ロール制御 =====
+        ViewEmployee user = viewEmployeeRepository.findByEmpId(empId).get(0);
+        String role = user.getRolesId();
+
+        if ("2".equals(role))
+            units = user.getUnitNo();
+        if ("3".equals(role)) {
+            units = user.getUnitNo();
+            teams = user.getTeamId();
+        }
+        if ("4".equals(role)) {
+            units = user.getUnitNo();
+            teams = user.getTeamId();
+            name = user.getEmpId();
+        }
+
+        List<ViewLata> list = viewLataRepository.search(units, teams, name, startDate, endDate);
+
+        // ===== Excel =====
+        Workbook wb = new XSSFWorkbook();
+        Sheet sheet = wb.createSheet("履歴");
+
+        // ===== スタイル =====
+        CellStyle headerStyle = wb.createCellStyle();
+        Font font = wb.createFont();
+        font.setBold(true);
+        headerStyle.setFont(font);
+        headerStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        headerStyle.setAlignment(HorizontalAlignment.CENTER);
+        headerStyle.setBorderTop(BorderStyle.THIN);
+        headerStyle.setBorderBottom(BorderStyle.THIN);
+        headerStyle.setBorderLeft(BorderStyle.THIN);
+        headerStyle.setBorderRight(BorderStyle.THIN);
+
+        CellStyle dataStyle = wb.createCellStyle();
+        dataStyle.setBorderTop(BorderStyle.THIN);
+        dataStyle.setBorderBottom(BorderStyle.THIN);
+        dataStyle.setBorderLeft(BorderStyle.THIN);
+        dataStyle.setBorderRight(BorderStyle.THIN);
+
+        // ===== ヘッダー（全項目）=====
+        String[] headers = {
+                "社員ID", "日付", "ユニットNo", "ユニット名", "チームID", "チーム名", "名前",
+                "理由コード", "理由名", "遅刻連絡時間", "電車ID", "路線", "到着予定時刻",
+                "遅刻連絡内容", "遅刻有無", "遅刻有無名", "到着連絡時間",
+                "遅刻時間", "到着時間", "遅延分", "到着連絡内容"
+        };
+
+        int rowIdx = 0;
+        Row header = sheet.createRow(rowIdx++);
+        for (int i = 0; i < headers.length; i++) {
+            Cell cell = header.createCell(i);
+            cell.setCellValue(headers[i]);
+            cell.setCellStyle(headerStyle);
+        }
+
+        // ===== データ（全getter）=====
+        for (ViewLata v : list) {
+            Row row = sheet.createRow(rowIdx++);
+            int col = 0;
+
+            createCell(row, col++, nvl(v.getEmpId()), dataStyle);
+            createCell(row, col++, formatDateView(v.getContactDate()), dataStyle);
+            createCell(row, col++, nvl(v.getUnitNo()), dataStyle);
+            createCell(row, col++, nvl(v.getUnitNm()), dataStyle);
+            createCell(row, col++, nvl(v.getTeamId()), dataStyle);
+            createCell(row, col++, nvl(v.getTeamName()), dataStyle);
+            createCell(row, col++, nvl(v.getName()), dataStyle);
+            createCell(row, col++, nvl(v.getReason()), dataStyle);
+            createCell(row, col++, nvl(v.getReasonNm()), dataStyle);
+            createCell(row, col++, formatTime(v.getLateContactTime()), dataStyle);
+            createCell(row, col++, nvl(v.getTrainId()), dataStyle);
+            createCell(row, col++, nvl(v.getRailway()), dataStyle);
+            createCell(row, col++, formatTime(v.getEta()), dataStyle);
+            createCell(row, col++, nvl(v.getLateInformation()), dataStyle);
+            createCell(row, col++, nvl(v.getLateUmu()), dataStyle);
+            createCell(row, col++, nvl(v.getLateUmuNm()), dataStyle);
+            createCell(row, col++, formatTime(v.getArrContactTime()), dataStyle);
+            createCell(row, col++, formatTime(v.getLateTime()), dataStyle);
+            createCell(row, col++, formatTime(v.getArriveTime()), dataStyle);
+            createCell(row, col++, nvl(v.getDelay()), dataStyle);
+            createCell(row, col++, nvl(v.getArrInformation()), dataStyle);
+        }
+
+        // ===== フィルタ =====
+        sheet.setAutoFilter(new CellRangeAddress(0, rowIdx - 1, 0, headers.length - 1));
+
+        // ===== ヘッダー固定 =====
+        sheet.createFreezePane(0, 1);
+
+        // ===== 列幅（おすすめは固定）=====
+        for (int i = 0; i < headers.length; i++) {
+            sheet.setColumnWidth(i, 5000);
+        }
+
+        // ===== 出力 =====
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=history.xlsx");
+
+        wb.write(response.getOutputStream());
+        wb.close();
+    }
+
+    private void createCell(Row row, int col, String val, CellStyle style) {
+        Cell cell = row.createCell(col);
+        cell.setCellValue(val == null ? "" : val);
+        cell.setCellStyle(style);
+    }
+
+    private String nvl(String v) {
+        return v == null ? "" : v;
+    }
+
+    private String formatDateView(String d) {
+        if (d == null || d.length() != 8)
+            return d;
+        return d.substring(0, 4) + "/" + d.substring(4, 6) + "/" + d.substring(6, 8);
+    }
+
+    private String formatTime(String t) {
+        if (t == null || t.length() != 4)
+            return t;
+        return t.substring(0, 2) + ":" + t.substring(2, 4);
+    }
 }

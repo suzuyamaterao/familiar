@@ -212,4 +212,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.location.href = '/export-csv?' + params.toString();
     });
 
+    document.getElementById('excelBtn').addEventListener('click', () => {
+
+        const params = new URLSearchParams();
+
+        params.append('startDate', document.querySelector('[name="startDate"]').value);
+        params.append('endDate', document.querySelector('[name="endDate"]').value);
+        params.append('units', document.getElementById('unitHidden').value);
+        params.append('teams', document.getElementById('teamHidden').value);
+        params.append('name', document.getElementById('nameHidden').value);
+
+        window.location.href = '/export-excel?' + params.toString();
+    });
+    
 });
