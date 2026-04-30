@@ -17,8 +17,10 @@
     <!-- 上部情報 -->
     <div class="user-info">
       <span th:text="'ログイン名：' + ${empLname} + ' ' + ${empFname}"></span>
-      <button type="button" class="csv-button" id="csvBtn">CSVダウンロード</button>
-      <button type="button" class="excel-button" id="excelBtn">Excelダウンロード</button>
+      <div class="download-buttons">
+        <button type="button" class="csv-button" id="csvBtn">CSVダウンロード</button>
+        <button type="button" class="excel-button" id="excelBtn">Excelダウンロード</button>
+      </div>
     </div>
 
     
@@ -76,35 +78,42 @@
     <!-- 検索結果表示エリア -->
     <div class="result-area">
       <h2>検索結果</h2>
-      <p>ここに検索結果が表示されます。</p>
-      <table border="1">
-        <tr>
-          <th>遅刻有無</th>         
-          <th>日付</th>
-          <th>名前</th>
-          <th>理由</th>
-          <th>遅刻時間</th>
-          <th>到着時間</th>
-          <th>路線</th>
-          <th>遅延分</th>
-          <th>連絡時コメント</th>
-          <th>到着時コメント</th>
-        </tr>
-        <tr th:each="item : ${results}">
-          <td th:text="${item.lateUmuNm}"></td>
-          <td th:text="${item.contactDate}"></td>
-          <td th:text="${item.name}"></td>
-          <td th:text="${item.reasonNm}"></td>
-          <td th:text="${item.lateTime}"></td>
-          <td th:text="${item.arriveTime}"></td> 
-          <td th:text="${item.railway}"></td>
-          <td th:text="${item.delay}"></td>
-          <td th:text="${item.lateInformation}"></td>
-          <td th:text="${item.arrInformation}"></td>
-        </tr>
-      </table>
+      <!-- データなし -->
+      <p th:if="${#lists.isEmpty(results)}" class="no-data">
+        該当するデータはありません。
+      </p>
+      <!-- データあり -->
+      <div class="table-wrapper" th:if="${!#lists.isEmpty(results)}">
+        <table class="result-table">
+          <tr>
+            <th>遅刻有無</th>         
+            <th>日付</th>
+            <th>名前</th>
+            <th>理由</th>
+            <th>遅刻時間</th>
+            <th>到着時間</th>
+            <th>路線</th>
+            <th>遅延分</th>
+            <th>連絡時コメント</th>
+            <th>到着時コメント</th>
+          </tr>
+          <tr th:each="item : ${results}">
+            <td th:text="${item.lateUmuNm}"></td>
+            <td th:text="${#strings.substring(item.contactDate,0,4) + '/' 
+              + #strings.substring(item.contactDate,4,6) + '/' 
+              + #strings.substring(item.contactDate,6,8)}"></td>
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.reasonNm}"></td>
+            <td th:text="${item.lateTime}"></td>
+            <td th:text="${item.arriveTime}"></td> 
+            <td th:text="${item.railway}"></td>
+            <td th:text="${item.delay}"></td>
+            <td th:text="${item.lateInformation}"></td>
+            <td th:text="${item.arrInformation}"></td>
+          </tr>
+        </table>
+      </div>  
     </div>
-
   </main>
 
   <footer>&copy; 2026 遅刻報告アプリ</footer>

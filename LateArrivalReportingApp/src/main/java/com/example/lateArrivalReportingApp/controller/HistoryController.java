@@ -501,4 +501,5 @@ public class HistoryController {
             return t;
         return t.substring(0, 2) + ":" + t.substring(2, 4);
     }
+
 }
