@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    
+
     <!-- 検索条件フォーム -->
     <form class="search-form" action="/search" method="get">
       <div class="form-row">
@@ -38,10 +38,8 @@
         <label>ユニット：
           <select id="unitSelect">
             <option value="">選択してください</option>
-            <option th:each="unit : ${units}"
-                    th:value="${unit.codeId}"
-                    th:text="${unit.codeName}"
-                    th:selected="${unit.codeId == selectedUnit}">
+            <option th:each="unit : ${units}" th:value="${unit.codeId}" th:text="${unit.codeName}"
+              th:selected="${unit.codeId == selectedUnit}">
             </option>
           </select>
           <input type="hidden" name="units" id="unitHidden">
@@ -50,10 +48,8 @@
         <label>チーム：
           <select id="teamSelect">
             <option value="">選択してください</option>
-            <option th:each="team : ${teams}"
-                th:value="${team.teamId}"
-                th:text="${team.teamName}"
-                th:selected="${team.teamId == selectedTeam}">
+            <option th:each="team : ${teams}" th:value="${team.teamId}" th:text="${team.teamName}"
+              th:selected="${team.teamId == selectedTeam}">
             </option>
           </select>
           <input type="hidden" name="teams" id="teamHidden">
@@ -61,10 +57,8 @@
         <label>名前：
           <select id="employeeSelect">
             <option value="">選択してください</option>
-            <option th:each="employee : ${employees}"
-                    th:value="${employee.empId}"
-                    th:text="|${employee.empLname} ${employee.empFname}|"
-                    th:selected="${employee.empId == selectedName}">
+            <option th:each="employee : ${employees}" th:value="${employee.empId}"
+              th:text="|${employee.empLname} ${employee.empFname}|" th:selected="${employee.empId == selectedName}">
             </option>
           </select>
           <input type="hidden" name="name" id="nameHidden">
@@ -86,7 +80,7 @@
       <div class="table-wrapper" th:if="${!#lists.isEmpty(results)}">
         <table class="result-table">
           <tr>
-            <th>遅刻有無</th>         
+            <th>遅刻有無</th>
             <th>日付</th>
             <th>名前</th>
             <th>理由</th>
@@ -104,15 +98,19 @@
               + #strings.substring(item.contactDate,6,8)}"></td>
             <td th:text="${item.name}"></td>
             <td th:text="${item.reasonNm}"></td>
-            <td th:text="${item.lateTime}"></td>
-            <td th:text="${item.arriveTime}"></td> 
+            <td
+              th:text="${item.lateTime != null ? (item.lateTime.contains(':') ? #strings.replace(item.lateTime, ':', '時間') + '分' : (item.lateTime.length() == 4 ? #strings.substring(item.lateTime,0,2) + '時間' + #strings.substring(item.lateTime,2,4) + '分' : item.lateTime)) : ''}">
+            </td>
+            <td
+              th:text="${item.arriveTime != null ? (item.arriveTime.contains(':') ? #strings.replace(item.arriveTime, ':', '：') : (item.arriveTime.length() == 4 ? #strings.substring(item.arriveTime,0,2) + '：' + #strings.substring(item.arriveTime,2,4) : item.arriveTime)) : ''}">
+            </td>
             <td th:text="${item.railway}"></td>
             <td th:text="${item.delay}"></td>
             <td th:text="${item.lateInformation}"></td>
             <td th:text="${item.arrInformation}"></td>
           </tr>
         </table>
-      </div>  
+      </div>
     </div>
   </main>
 
