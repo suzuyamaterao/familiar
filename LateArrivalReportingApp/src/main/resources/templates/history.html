@@ -72,6 +72,32 @@
     <!-- 検索結果表示エリア -->
     <div class="result-area">
       <h2>検索結果</h2>
+
+      <!-- 検索条件表示 -->
+      <div class="search-conditions"
+        th:if="${startDate != null and startDate != '' or endDate != null and endDate != '' or selectedUnitName != null and selectedUnitName != '' or selectedTeamName != null and selectedTeamName != '' or selectedEmployeeName != null and selectedEmployeeName != ''}"
+        style="margin-bottom: 20px; padding: 10px; background-color: #f0f0f0; border-radius: 5px;">
+        <strong>検索条件：</strong>
+        <span th:if="${startDate != null and startDate != '' or endDate != null and endDate != ''}">
+          期間： <span th:text="${startDate != null and startDate != '' ? startDate : '未指定'}"></span> ～ <span
+            th:text="${endDate != null and endDate != '' ? endDate : '未指定'}"></span>
+        </span>
+        <span th:if="${selectedUnitName != null and selectedUnitName != ''}">
+          <span th:if="${startDate != null and startDate != '' or endDate != null and endDate != ''}">、</span>ユニット：
+          <span th:text="${selectedUnitName}"></span>
+        </span>
+        <span th:if="${selectedTeamName != null and selectedTeamName != ''}">
+          <span
+            th:if="${startDate != null and startDate != '' or endDate != null and endDate != '' or selectedUnitName != null and selectedUnitName != ''}">、</span>チーム：
+          <span th:text="${selectedTeamName}"></span>
+        </span>
+        <span th:if="${selectedEmployeeName != null and selectedEmployeeName != ''}">
+          <span
+            th:if="${startDate != null and startDate != '' or endDate != null and endDate != '' or selectedUnitName != null and selectedUnitName != '' or selectedTeamName != null and selectedTeamName != ''}">、</span>名前：
+          <span th:text="${selectedEmployeeName}"></span>
+        </span>
+      </div>
+
       <!-- データなし -->
       <p th:if="${#lists.isEmpty(results)}" class="no-data">
         該当するデータはありません。

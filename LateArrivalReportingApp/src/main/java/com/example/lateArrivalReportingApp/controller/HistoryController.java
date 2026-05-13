@@ -103,6 +103,13 @@ public class HistoryController {
         List<ViewEmployee> employees = viewEmployeeRepository.findAll();
         model.addAttribute("employees", employees);
 
+        model.addAttribute("startDate", "");
+        model.addAttribute("endDate", "");
+
+        model.addAttribute("selectedUnitName", "");
+        model.addAttribute("selectedTeamName", "");
+        model.addAttribute("selectedEmployeeName", "");
+
         return "history"; // ここにユニットとチーム両方の <select> がある
     }
 
@@ -206,13 +213,29 @@ public class HistoryController {
         model.addAttribute("teams", teamMstRepository.findAll());
         model.addAttribute("employees", viewEmployeeRepository.findAll());
 
-        // // ★ 表示用は元フォーマットに戻す（yyyy-MM-dd）
-        // model.addAttribute("startDate", restoreDate(startDate));
-        // model.addAttribute("endDate", restoreDate(endDate));
+        // ★ 表示用は元フォーマットに戻す（yyyy-MM-dd）
+        model.addAttribute("startDate", startDate == null ? "" : restoreDate(startDate));
+        model.addAttribute("endDate", endDate == null ? "" : restoreDate(endDate));
 
-        // model.addAttribute("selectedUnit", units);
-        // model.addAttribute("selectedTeam", teams);
-        // model.addAttribute("selectedName", name);
+        model.addAttribute("selectedUnit", units);
+        model.addAttribute("selectedTeam", teams);
+        model.addAttribute("selectedName", name);
+
+        // 検索条件の表示用
+        final String finalUnits = units;
+        final String finalTeams = teams;
+        final String finalName = name;
+        String selectedUnitName = finalUnits != null ? codeMstRepository.findByGroupId("UNIT").stream()
+                .filter(c -> c.getCodeId().equals(finalUnits)).map(c -> c.getCodeName()).findFirst().orElse("") : "";
+        String selectedTeamName = finalTeams != null
+                ? teamMstRepository.findById(finalTeams).map(t -> t.getTeamName()).orElse("")
+                : "";
+        String selectedEmployeeName = finalName != null ? viewEmployeeRepository.findByEmpId(finalName).stream()
+                .map(e -> e.getEmpLname() + " " + e.getEmpFname()).findFirst().orElse("") : "";
+
+        model.addAttribute("selectedUnitName", selectedUnitName);
+        model.addAttribute("selectedTeamName", selectedTeamName);
+        model.addAttribute("selectedEmployeeName", selectedEmployeeName);
 
         model.addAttribute("empLname", user.getEmpLname());
         model.addAttribute("empFname", user.getEmpFname());
