@@ -125,8 +125,19 @@
               + #strings.substring(item.contactDate,6,8)}"></td>
             <td th:text="${item.name}"></td>
             <td th:text="${item.reasonNm}"></td>
-            <td
-              th:text="${item.lateTime != null ? (item.lateTime.contains(':') ? #strings.replace(item.lateTime, ':', '時間') + '分' : (item.lateTime.length() == 4 ? #strings.substring(item.lateTime,0,2) + '時間' + #strings.substring(item.lateTime,2,4) + '分' : item.lateTime)) : ''}">
+            <td th:text="${item.lateTime != null ?
+              (
+                item.lateTime.length() == 4 ?
+                (
+                  #strings.substring(item.lateTime,0,2) == '00' ?
+                    T(java.lang.Integer).parseInt(#strings.substring(item.lateTime,2,4)) + '分'
+                  :
+                    T(java.lang.Integer).parseInt(#strings.substring(item.lateTime,0,2)) + '時間' +
+                    T(java.lang.Integer).parseInt(#strings.substring(item.lateTime,2,4)) + '分'
+                )
+                : item.lateTime
+              )
+              : ''}">
             </td>
             <td
               th:text="${item.arriveTime != null ? (item.arriveTime.contains(':') ? #strings.replace(item.arriveTime, ':', '：') : (item.arriveTime.length() == 4 ? #strings.substring(item.arriveTime,0,2) + '：' + #strings.substring(item.arriveTime,2,4) : item.arriveTime)) : ''}">
