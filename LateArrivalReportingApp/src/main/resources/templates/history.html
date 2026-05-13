@@ -25,12 +25,13 @@
 
 
     <!-- 検索条件フォーム -->
-    <form class="search-form" action="/search" method="get">
+    <form class="search-form" action="/search" method="get" autocomplete="off">
       <div class="form-row">
         <label>期間：
-          <input type="date" name="startDate" th:value="${startDate}" />
+          <input type="date" id="startDateInput" name="startDate" th:value="${startDate}" autocomplete="off" />
           ～
-          <input type="date" name="endDate" th:value="${endDate}" />
+          <input type="date" id="endDateInput" name="endDate" th:value="${endDate}" autocomplete="off" />
+          <button type="button" class="clear-date-btn" id="clearDateBtn">クリア</button>
         </label>
       </div>
 

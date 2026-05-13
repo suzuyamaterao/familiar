@@ -34,7 +34,7 @@
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
 }
 
@@ -55,6 +55,39 @@ select {
   padding: 6px;
   border-radius: 6px;
   border: 1px solid #ccc;
+}
+
+input[type="date"] {
+  width: calc(50% - 10px);
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="date"]:focus {
+  border-color: #4b79a1;
+  box-shadow: 0 0 5px rgba(75, 121, 161, 0.4);
+  outline: none;
+}
+
+.clear-date-btn {
+  margin-left: 10px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #f7f7f7;
+  color: #333;
+  cursor: pointer;
+}
+
+.clear-date-btn:hover {
+  background: #e8e8e8;
+}
+
+.clear-date-btn:focus {
+  outline: 2px solid #4b79a1;
 }
 
 .detail-btn,
@@ -85,7 +118,7 @@ select {
   border-radius: 10px;
   overflow: hidden;
   font-size: 14px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 /* ヘッダー */
@@ -116,19 +149,24 @@ select {
 .result-table tr:hover {
   background: #eef3f9;
 }
+
 .no-data {
   text-align: center;
   padding: 20px;
   color: #888;
   font-size: 16px;
 }
+
 .table-wrapper {
   overflow-x: auto;
 }
+
 .download-buttons {
   display: flex;
-  gap: 10px; /* ボタン間の距離 */
+  gap: 10px;
+  /* ボタン間の距離 */
 }
+
 .download-buttons button {
   min-width: 140px;
 }
