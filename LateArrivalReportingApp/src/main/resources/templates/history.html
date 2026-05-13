@@ -25,13 +25,12 @@
 
 
     <!-- 検索条件フォーム -->
-    <form class="search-form" action="/search" method="get" autocomplete="off">
+    <form class="search-form" action="/search" method="get">
       <div class="form-row">
         <label>期間：
-          <input type="date" id="startDateInput" name="startDate" th:value="${startDate}" autocomplete="off" />
+          <input type="date" name="startDate" th:value="${startDate}" />
           ～
-          <input type="date" id="endDateInput" name="endDate" th:value="${endDate}" autocomplete="off" />
-          <button type="button" class="clear-date-btn" id="clearDateBtn">クリア</button>
+          <input type="date" name="endDate" th:value="${endDate}" />
         </label>
       </div>
 
@@ -132,8 +131,13 @@
                   #strings.substring(item.lateTime,0,2) == '00' ?
                     T(java.lang.Integer).parseInt(#strings.substring(item.lateTime,2,4)) + '分'
                   :
-                    T(java.lang.Integer).parseInt(#strings.substring(item.lateTime,0,2)) + '時間' +
-                    T(java.lang.Integer).parseInt(#strings.substring(item.lateTime,2,4)) + '分'
+                    (
+                      #strings.substring(item.lateTime,2,4) == '00' ?
+                        T(java.lang.Integer).parseInt(#strings.substring(item.lateTime,0,2)) + '時間'
+                      :
+                        T(java.lang.Integer).parseInt(#strings.substring(item.lateTime,0,2)) + '時間' +
+                        T(java.lang.Integer).parseInt(#strings.substring(item.lateTime,2,4)) + '分'
+                    )
                 )
                 : item.lateTime
               )
@@ -143,7 +147,7 @@
               th:text="${item.arriveTime != null ? (item.arriveTime.contains(':') ? #strings.replace(item.arriveTime, ':', '：') : (item.arriveTime.length() == 4 ? #strings.substring(item.arriveTime,0,2) + '：' + #strings.substring(item.arriveTime,2,4) : item.arriveTime)) : ''}">
             </td>
             <td th:text="${item.railway}"></td>
-            <td th:text="${item.delay}"></td>
+            <td th:text="${item.delay != null and item.delay != '' ? item.delay + '分' : ''}"></td>
             <td th:text="${item.lateInformation}"></td>
             <td th:text="${item.arrInformation}"></td>
           </tr>

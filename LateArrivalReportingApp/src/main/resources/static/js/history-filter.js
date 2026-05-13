@@ -8,10 +8,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         team: document.getElementById('teamSelect'),
         emp: document.getElementById('employeeSelect'),
 
-        startDate: document.getElementById('startDateInput'),
-        endDate: document.getElementById('endDateInput'),
-        clearDateBtn: document.getElementById('clearDateBtn'),
-
         unitHidden: document.getElementById('unitHidden'),
         teamHidden: document.getElementById('teamHidden'),
         nameHidden: document.getElementById('nameHidden')
@@ -40,13 +36,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     bindEvents();
     await initViewByRole();
     syncHidden();
-
-    if (el.clearDateBtn) {
-        el.clearDateBtn.addEventListener('click', () => {
-            el.startDate.value = '';
-            el.endDate.value = '';
-        });
-    }
 
     // =========================
     // イベント

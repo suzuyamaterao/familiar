@@ -57,39 +57,6 @@ select {
   border: 1px solid #ccc;
 }
 
-input[type="date"] {
-  width: calc(50% - 10px);
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-input[type="date"]:focus {
-  border-color: #4b79a1;
-  box-shadow: 0 0 5px rgba(75, 121, 161, 0.4);
-  outline: none;
-}
-
-.clear-date-btn {
-  margin-left: 10px;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background: #f7f7f7;
-  color: #333;
-  cursor: pointer;
-}
-
-.clear-date-btn:hover {
-  background: #e8e8e8;
-}
-
-.clear-date-btn:focus {
-  outline: 2px solid #4b79a1;
-}
-
 .detail-btn,
 .search-btn {
   background-color: #4b79a1;
