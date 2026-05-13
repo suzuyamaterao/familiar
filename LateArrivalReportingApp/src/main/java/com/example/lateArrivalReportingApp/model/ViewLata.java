@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.Immutable;
 
 @Entity
-@Table(name = "view_lata")
+@Table(name = "view_late")
 
 @Immutable // 更新不可（重要）
 @IdClass(ViewLataId.class) // 複合キー
